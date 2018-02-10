@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      >
+    <h:head>
+        <title>Agilizate</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="#{facesContext.externalContext.requestContextPath}/css/styles.css" rel="stylesheet"/>
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"/>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous"/>
+    </h:head>
+    <h:body> 
+        <div id="page">
+            <div class="header">
+                <div class="container">
+                    <h1 align="center">Agilízate</h1>
+                    <h3 align="center">Mejora tus habilidades físicas y mentales</h3>
+                    <img width="200" src="images/logo.png"/>
+                </div>
+            </div>
+            <div id="content">
+                <h:form>
+                    <p:menubar>
+                        <p:submenu label="Catálogos">
+                            <p:menuitem value="Tipos de clientes" action="tipoCliente" />
+                            <p:menuitem value="Niveles de dificultad" action="dificultad" />
+                            <p:menuitem value="Pasatiempos" action="pasatiempo" />
+                            <p:menuitem value="Materiales" action="material" />
+                            <p:menuitem value="Tipos de instrucciones" action="tipoInstruccion" />
+                            <p:menuitem value="Categorías" action="categoria" />
+                            <p:menuitem value="Géneros" action="genero" />
+                        </p:submenu>
+                        <p:submenu label="Ejercicios">
+                            <p:menuitem value="Ejercicios" action="ejercicio" />
+                            <p:menuitem value="Instrucciones" action="instruccion" />
+                        </p:submenu>
+                        <p:submenu label="Clientes" >
+                            <p:menuitem value="Agregar cliente" action="cliente" />
+                        </p:submenu>
+                        <p:submenu label="Programas" >
+                            <p:menuitem value="Programa cliente" action="programaCliente" />
+                            <p:menuitem value="Seguimientos" action="seguimiento" />
+                        </p:submenu>
+                    </p:menubar>
+                    <p:growl id="growl" showDetail="true" life="3000"  />
+                    <ui:insert name="contenido">
+
+                    </ui:insert>
+                    <p>&nbsp;</p>
+                </h:form>
+            </div>
+            <footer>
+                <div class="footer" id="footer">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-1"/>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <h3> Aplicaciones Distribuidas </h3>
+                                <ul>
+                                    <li>2018</li>
+                                    <li>NRC: 2434</li>
+                                    <li>Daniel Arcentales</li>
+                                    <li>José Benavides</li>
+                                    <li>Tutor: HENRY RAMIRO CORAL CORAL </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-3  col-md-6 col-sm-6 col-xs-12 ">
+                                <h3> Suscribete </h3>
+                                <ul>
+                                    <li>
+                                        <div class="input-append newsletter-box text-center">
+                                            <input type="text" class="full text-center" placeholder="Correo "/>
+                                            <button class="btn  bg-gray" type="button"> Enviar <i class="fa fa-long-arrow-right"> </i> </button>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <ul class="social">
+                                    <li> <a href="#"> <i class=" fa fa-facebook">   </i> </a> </li>
+                                    <li> <a href="#"> <i class="fa fa-twitter">   </i> </a> </li>
+                                    <li> <a href="#"> <i class="fa fa-google-plus">   </i> </a> </li>
+                                    <li> <a href="#"> <i class="fa fa-github">   </i> </a> </li>
+                                    <li> <a href="#"> <i class="fa fa-youtube">   </i> </a> </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!--/.row--> 
+                    </div>
+                    <!--/.container--> 
+                </div>
+                <!--/.footer-->
+                <div class="footer-bottom">
+                    <div class="container">
+                        <p class="pull-left"> Copyright © Arcentales-Benavides.SA. Todos los derechos reservados. </p>
+                    </div>
+                </div>
+                <!--/.footer-bottom--> 
+            </footer>
+        </div>
+
+    </h:body>
+</html>
