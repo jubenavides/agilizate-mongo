@@ -10,6 +10,8 @@ package ec.edu.espe.distribuidas.agilizate.model;
 import ec.edu.espe.distribuidas.agilizate.enums.CodGeneroEnum;
 import ec.edu.espe.distribuidas.nosql.mongo.BaseEntity;
 import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.IndexOptions;
+import org.mongodb.morphia.annotations.Indexed;
 import org.mongodb.morphia.annotations.Reference;
 
 
@@ -20,6 +22,8 @@ import org.mongodb.morphia.annotations.Reference;
 @Entity(noClassnameStored = true, value = "cliente")
 public class Cliente extends BaseEntity {
     
+    @Indexed(options = @IndexOptions(name = "codigo_codigoUIdx", unique = true))
+    private String codigo;
     private Integer codTipoCliente;
     private CodGeneroEnum codGenero;
     private Integer codPasatiempo;
@@ -35,6 +39,14 @@ public class Cliente extends BaseEntity {
     private Pasatiempo pasatiempo;
 
     public Cliente() {
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public Integer getCodTipoCliente() {
@@ -119,7 +131,7 @@ public class Cliente extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Cliente{" + "codTipoCliente=" + codTipoCliente + ", codGenero=" + codGenero + ", codPasatiempo=" + codPasatiempo + ", nombre=" + nombre + ", apellido=" + apellido + ", edad=" + edad + ", correo=" + correo + ", tipoCliente=" + tipoCliente + ", genero=" + genero + ", pasatiempo=" + pasatiempo + '}';
+        return "Cliente{" + "codigo=" + codigo + ", codTipoCliente=" + codTipoCliente + ", codGenero=" + codGenero + ", codPasatiempo=" + codPasatiempo + ", nombre=" + nombre + ", apellido=" + apellido + ", edad=" + edad + ", correo=" + correo + ", tipoCliente=" + tipoCliente + ", genero=" + genero + ", pasatiempo=" + pasatiempo + '}';
     }
     
     @Override

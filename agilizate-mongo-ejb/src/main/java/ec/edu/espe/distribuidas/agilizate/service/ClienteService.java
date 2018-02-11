@@ -44,13 +44,14 @@ public class ClienteService {
         this.clienteFacade.save(cliente);
     }
 
-    public void modificar(ObjectId id) {
-        Cliente cliente = this.clienteFacade.get(id);
+    public void modificar(Cliente cliente) {
+        Cliente aux = this.clienteFacade.findOne("codigo", cliente.getCodigo());
+        cliente.setId(aux.getId());
         this.clienteFacade.save(cliente);
     }
 
-    public void eliminar(ObjectId id) {
-        Cliente categoria = this.clienteFacade.get(id);
-        this.clienteFacade.delete(categoria);
+    public void eliminar(String codigo) {
+        Cliente cliente = this.clienteFacade.findOne("codigo", codigo);
+        this.clienteFacade.delete(cliente);
     }
 }

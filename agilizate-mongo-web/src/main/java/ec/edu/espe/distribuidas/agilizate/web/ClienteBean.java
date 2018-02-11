@@ -8,7 +8,13 @@
 package ec.edu.espe.distribuidas.agilizate.web;
 
 import ec.edu.espe.distribuidas.agilizate.model.Cliente;
+import ec.edu.espe.distribuidas.agilizate.model.Genero;
+import ec.edu.espe.distribuidas.agilizate.model.Pasatiempo;
+import ec.edu.espe.distribuidas.agilizate.model.TipoCliente;
 import ec.edu.espe.distribuidas.agilizate.service.ClienteService;
+import ec.edu.espe.distribuidas.agilizate.service.GeneroService;
+import ec.edu.espe.distribuidas.agilizate.service.PasatiempoService;
+import ec.edu.espe.distribuidas.agilizate.service.TipoClienteService;
 import ec.edu.espe.distribuidas.agilizate.web.util.FacesUtil;
 import java.io.Serializable;
 import java.util.List;
@@ -25,37 +31,46 @@ import org.bson.types.ObjectId;
 @Named
 @ViewScoped
 public class ClienteBean extends BaseBean implements Serializable {
-    
+
     private List<Cliente> clientes;
-    
+    private List<TipoCliente> tipoClientes;
+    private List<Genero> generos;
+    private List<Pasatiempo> pasaTiempos;
+
     private Cliente cliente;
-    
+
     private Cliente clienteSel;
-    
+
     @Inject
     private ClienteService clienteService;
-    
+    @Inject
+    private GeneroService generoService;
+    @Inject
+    private PasatiempoService pasatiempoService;
+    @Inject
+    private TipoClienteService tipoClienteService;
+
     @PostConstruct
     public void init() {
         this.clientes = this.clienteService.obtenerTodos();
         this.cliente = new Cliente();
+        this.pasaTiempos = this.pasatiempoService.obtenerTodos();
+        this.generos = this.generoService.obtenerTodos();
+        this.tipoClientes = this.tipoClienteService.obtenerTodos();
     }
-    
-    public List<Cliente> getclientes() {
-        return clientes;
-    }
-    
+
     @Override
     public void agregar() {
         this.cliente = new Cliente();
         super.agregar();
-        
+
     }
-    
+
     @Override
     public void modificar() {
         super.modificar();
         this.cliente = new Cliente();
+        this.cliente.setCodigo(this.clienteSel.getCodigo());
         this.cliente.setTipoCliente(this.clienteSel.getTipoCliente());
         this.cliente.setCodGenero(this.clienteSel.getCodGenero());
         this.cliente.setCodPasatiempo(this.clienteSel.getCodPasatiempo());
@@ -64,22 +79,27 @@ public class ClienteBean extends BaseBean implements Serializable {
         this.cliente.setEdad(this.clienteSel.getEdad());
         this.cliente.setCorreo(this.clienteSel.getCorreo());
     }
-    
+
     @Override
     public void detalles() {
         super.detalles();
         this.cliente = this.clienteSel;
     }
-    
+
     public void cancelar() {
         super.reset();
         this.cliente = new Cliente();
     }
-    
+
     public void guardar() {
         try {
-            this.clienteService.crear(this.cliente);
-            FacesUtil.addMessageInfo("Se agregó el cliente: " + this.cliente.getNombre() + " " + this.cliente.getApellido());
+            if (this.enAgregar) {
+                this.clienteService.crear(this.cliente);
+                FacesUtil.addMessageInfo("Se agregó el cliente: " + this.cliente.getNombre() + " " + this.cliente.getApellido());
+            } else {
+                this.clienteService.modificar(this.cliente);
+                FacesUtil.addMessageInfo("Se modific\u00f3 el Tipo de Tour con c\u00f3digo: " + this.cliente.getNombre() + " " + this.cliente.getApellido());
+            }
         } catch (Exception ex) {
             FacesUtil.addMessageError(null, "Ocurrí\u00f3 un error al actualizar la informaci\u00f3n");
         }
@@ -90,8 +110,8 @@ public class ClienteBean extends BaseBean implements Serializable {
 
     public void eliminar() {
         try {
-            this.clienteService.eliminar(new ObjectId(this.clienteSel.getId()));
-            FacesUtil.addMessageInfo("Se elimino el cliente");
+            this.clienteService.eliminar(this.clienteSel.getCodigo());
+            FacesUtil.addMessageInfo("Se elimino el cliente" + this.cliente.getNombre() + " " + this.cliente.getApellido());
         } catch (Exception ex) {
             FacesUtil.addMessageError(null, "Ocurrí\u00f3 un error al actualizar la informaci\u00f3n");
         }
@@ -103,21 +123,33 @@ public class ClienteBean extends BaseBean implements Serializable {
     public Cliente getCliente() {
         return cliente;
     }
-    
+
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-    
+
     public Cliente getClienteSel() {
         return clienteSel;
     }
-    
+
     public void setClienteSel(Cliente clienteSel) {
         this.clienteSel = clienteSel;
     }
-    
+
     public List<Cliente> getClientes() {
         return clientes;
     }
-    
+
+    public List<TipoCliente> getTipoClientes() {
+        return tipoClientes;
+    }
+
+    public List<Genero> getGeneros() {
+        return generos;
+    }
+
+    public List<Pasatiempo> getPasaTiempos() {
+        return pasaTiempos;
+    }
+
 }

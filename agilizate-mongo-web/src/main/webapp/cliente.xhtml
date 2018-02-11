@@ -14,7 +14,7 @@
                     <p:ajax event="rowSelect" update="@form" />
                     <p:ajax event="rowUnselect" update="@form" />
                     <p:column headerText="Codigo" style="width: 8%">
-                        <h:outputText value="#{cliente.id}" />
+                        <h:outputText value="#{cliente.codigo}" />
                     </p:column>
                     <p:column headerText="Tipo">
                         <h:outputText value="#{cliente.tipoCliente.nombre}" />
@@ -46,13 +46,15 @@
                 </p:commandButton>
                 <p:panel header="#{clienteBean.titulo} Cliente" visible="#{clienteBean.habilitaForm}">
                     <p:panelGrid columns="2">
+                        <p:outputLabel for="codigo" value="Codigo" />
+                        <p:inputText id="codigo" value="#{clienteBean.cliente.codigo}"/>
                         <p:outputLabel for="opTipoCliente" value="Tipo Cliente" />
                         <p:selectOneMenu id="opTipoCliente" value="#{clienteBean.cliente.codTipoCliente}">
-                            <f:selectItems var="tipocliente" value="#{clienteBean.cliente.tipoCliente}" itemLabel="#{tipocliente.nombre}" itemValue="#{tipocliente.codigo}" />
+                            <f:selectItems var="tipocliente" value="#{clienteBean.tipoClientes}" itemLabel="#{tipocliente.nombre}" itemValue="#{tipocliente.id}" />
                         </p:selectOneMenu>
                         <p:outputLabel for="opPasatiempo" value="Pasatiempo" />
                         <p:selectOneMenu id="opPasatiempo" value="#{clienteBean.cliente.codPasatiempo}">
-                            <f:selectItems var="pasatiempo" value="#{clienteBeanpasaTiempos}" itemLabel="#{pasatiempo.nombre}" itemValue="#{pasatiempo.codPasatiempo}" />
+                            <f:selectItems var="pasatiempo" value="#{clienteBean.pasaTiempos}" itemLabel="#{pasatiempo.nombre}" itemValue="#{pasatiempo.id}" />
                         </p:selectOneMenu>
                         <p:outputLabel for="opGenero" value="Genero" />
                         <p:selectOneMenu id="opGenero" value="#{clienteBean.cliente.codGenero}">

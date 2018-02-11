@@ -41,10 +41,6 @@ public class CategoriaBean extends BaseBean implements Serializable{
         this.categoria = new Categoria();
     }
     
-    public List<Categoria> getTiposCamarote(){
-        return categorias;
-    }
-    
     @Override
     public void agregar() {
         this.categoria = new Categoria();
