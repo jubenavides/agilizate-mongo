@@ -24,9 +24,9 @@ public class Cliente extends BaseEntity {
     
     @Indexed(options = @IndexOptions(name = "codigo_codigoUIdx", unique = true))
     private String codigo;
-    private Integer codTipoCliente;
+    private String codTipoCliente;
     private CodGeneroEnum codGenero;
-    private Integer codPasatiempo;
+    private String codPasatiempo;
     private String nombre;
     private String apellido;
     private Integer edad;
@@ -49,14 +49,6 @@ public class Cliente extends BaseEntity {
         this.codigo = codigo;
     }
 
-    public Integer getCodTipoCliente() {
-        return codTipoCliente;
-    }
-
-    public void setCodTipoCliente(Integer codTipoCliente) {
-        this.codTipoCliente = codTipoCliente;
-    }
-
     public CodGeneroEnum getCodGenero() {
         return codGenero;
     }
@@ -65,13 +57,23 @@ public class Cliente extends BaseEntity {
         this.codGenero = codGenero;
     }
 
-    public Integer getCodPasatiempo() {
+    public String getCodTipoCliente() {
+        return codTipoCliente;
+    }
+
+    public void setCodTipoCliente(String codTipoCliente) {
+        this.codTipoCliente = codTipoCliente;
+    }
+
+    public String getCodPasatiempo() {
         return codPasatiempo;
     }
 
-    public void setCodPasatiempo(Integer codPasatiempo) {
+    public void setCodPasatiempo(String codPasatiempo) {
         this.codPasatiempo = codPasatiempo;
     }
+
+    
 
     public String getNombre() {
         return nombre;
