@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//ES" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/plantilla.xhtml">
+        <ui:define name="contenido">
+            <p:panel id="mainPnl" header="Clientes" style="width: 90%; margin: auto;">
+                <p:dataTable var="cliente" value="#{clienteBean.clientes}" 
+                             selectionMode="single" selection="#{clienteBean.clienteSel}" rowKey="#{cliente.codigo}">
+                    <p:ajax event="rowSelect" update="@form" />
+                    <p:ajax event="rowUnselect" update="@form" />
+                    <p:column headerText="Codigo" style="width: 8%">
+                        <h:outputText value="#{cliente.codigo}" />
+                    </p:column>
+                    <p:column headerText="Tipo">
+                        <h:outputText value="#{cliente.tipoCliente.nombre}" />
+                    </p:column>
+                    <p:column headerText="Genero">
+                        <h:outputText value="#{cliente.genero.descripcion}" />
+                    </p:column>
+                <p:column headerText="Pasatiempo">
+                    <h:outputText value="#{cliente.pasatiempo.nombre}" />
+                </p:column>
+                <p:column headerText="Nombre">
+                        <h:outputText value="#{cliente.nombre}" />
+                </p:column>
+                <p:column headerText="Apellido">
+                        <h:outputText value="#{cliente.apellido}" />
+                </p:column>
+                <p:column headerText="Edad">
+                        <h:outputText value="#{cliente.edad}" />
+                </p:column>
+                <p:column headerText="Correo" style="width: 25%">
+                        <h:outputText value="#{cliente.correo}" />
+                </p:column>
+                </p:dataTable>
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                <p:commandButton value="Agregar" actionListener="#{clienteBean.agregar()}" update="@form"/>
+                <p:commandButton id="modBtn" value="Modificar" actionListener="#{clienteBean.modificar()}" update="@form" disabled="#{clienteBean.clienteSel eq null}"/>
+                <p:commandButton value="Eliminar" actionListener="#{clienteBean.eliminar()}" update="@form" disabled="#{clienteBean.clienteSel eq null}" >
+                    <p:confirm header="Confirmaci&#243;n" message="Desea eliminar el cliente: #{clienteBean.clienteSel.nombre}" icon="ui-icon-alert" />
+                </p:commandButton>
+                <p:panel header="#{clienteBean.titulo} Cliente" visible="#{clienteBean.habilitaForm}">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel for="codigo" value="Codigo" />
+                        <p:inputText id="codigo" value="#{clienteBean.cliente.codigo}" disabled="#{clienteBean.enModificar}" />
+                        <p:outputLabel for="opTipoCliente" value="Tipo Cliente" />
+                        <p:selectOneMenu id="opTipoCliente" value="#{clienteBean.cliente.codTipoCliente}">
+                            <f:selectItems var="tipocliente" value="#{clienteBean.tipoClientes}" itemLabel="#{tipocliente.nombre}" itemValue="#{tipocliente.codigo}" />
+                        </p:selectOneMenu>
+                        <p:outputLabel for="opPasatiempo" value="Pasatiempo" />
+                        <p:selectOneMenu id="opPasatiempo" value="#{clienteBean.cliente.codPasatiempo}">
+                            <f:selectItems var="pasatiempo" value="#{clienteBean.pasaTiempos}" itemLabel="#{pasatiempo.nombre}" itemValue="#{pasatiempo.codPasatiempo}" />
+                        </p:selectOneMenu>
+                        <p:outputLabel for="opGenero" value="Genero" />
+                        <p:selectOneMenu id="opGenero" value="#{clienteBean.cliente.codGenero}">
+                            <f:selectItems var="genero" value="#{clienteBean.generos}" itemLabel="#{genero.descripcion}" itemValue="#{genero.codigo}" />
+                        </p:selectOneMenu>
+                        <p:outputLabel for="nombre" value="Nombre" />
+                        <p:inputText id="nombre" value="#{clienteBean.cliente.nombre}"/>
+                        <p:outputLabel for="apellido" value="Apellido" />
+                        <p:inputTextarea id="apellido" value="#{clienteBean.cliente.apellido}"/>
+                        <p:outputLabel for="edad" value="Edad" />
+                        <p:inputTextarea id="edad" value="#{clienteBean.cliente.edad}"/>
+                        <p:outputLabel for="correo" value="Correo" />
+                        <p:inputTextarea id="correo" value="#{clienteBean.cliente.correo}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="Aceptar" actionListener="#{clienteBean.guardar}" update="@form" />
+                    <p:commandButton value="Cancelar" actionListener="#{clienteBean.cancelar}" update="@form" />
+                </p:panel>
+            </p:panel>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </ui:define>
+    </ui:composition>
+</html>
