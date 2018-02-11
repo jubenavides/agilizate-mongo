@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//ES" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/plantilla.xhtml">
+        <ui:define name="contenido">
+            <p:panel id="mainPnl" header="Categoria" style="width: 50%; margin: auto;">
+                <p:dataTable var="categoria" value="#{categoriaBean.categorias}"
+                             selectionMode="single" selection="#{categoriaBean.categoriaSel}" rowKey="#{categoria.codigo}">
+                    <p:ajax event="rowSelect" update="@form" />
+                    <p:ajax event="rowUnselect" update="@form" />
+                    <p:column headerText="Codigo">
+                        <h:outputText value="#{categoria.codigo}" />
+                    </p:column>
+                    <p:column headerText="Descripcion">
+                        <h:outputText value="#{categoria.descripcion}" />
+                    </p:column>
+                </p:dataTable>
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                <p:commandButton value="Agregar" actionListener="#{categoriaBean.agregar()}" update="@form"/>
+                <p:commandButton id="modBtn" value="Modificar" actionListener="#{categoriaBean.modificar()}" update="@form" disabled="#{categoriaBean.categoriaSel eq null}"/>
+                <p:commandButton value="Eliminar" actionListener="#{categoriaBean.eliminar()}" update="@form" disabled="#{categoriaBean.categoriaSel eq null}" >
+                    <p:confirm header="Confirmaci&#243;n" message="Desea eliminar el tipo de Tour: #{categoriaBean.categoriaSel.descripcion}}" icon="ui-icon-alert" />
+                </p:commandButton>
+                <p:panel header="#{categoriaBean.titulo} Categoria" visible="#{categoriaBean.habilitaForm}">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel for="codigo" value="Codigo" />
+                        <p:inputText id="codigo" value="#{categoriaBean.categoria.codigo}" disabled="#{categoriaBean.enModificar}" />
+                        <p:outputLabel for="descripcion" value="Descripcion" />
+                        <p:inputText id="descripcion" value="#{categoriaBean.categoria.descripcion}"  />
+                        </p:panelGrid>
+                    <p:commandButton value="Aceptar" actionListener="#{categoriaBean.guardar}" update="@form" />
+                    <p:commandButton value="Cancelar" actionListener="#{categoriaBean.cancelar}" update="@form" />
+                </p:panel>
+            </p:panel>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -6,6 +6,7 @@
 package ec.edu.espe.distribuidas.agilizate.service;
 
 import ec.edu.espe.distribuidas.agilizate.dao.CategoriaDAO;
+import ec.edu.espe.distribuidas.agilizate.enums.CodCategoriaEnum;
 import ec.edu.espe.distribuidas.agilizate.model.Categoria;
 import ec.edu.espe.distribuidas.nosql.mongo.MongoPersistence;
 import java.util.List;
@@ -51,8 +52,8 @@ public class CategoriaService {
         
     }
 
-    public void eliminar(ObjectId id) {
-        Categoria categoria = this.categoriaFacade.get(id);
+    public void eliminar(CodCategoriaEnum codigo) {
+        Categoria categoria = this.categoriaFacade.findOne("codigo", codigo);
         this.categoriaFacade.delete(categoria);
     }
 }

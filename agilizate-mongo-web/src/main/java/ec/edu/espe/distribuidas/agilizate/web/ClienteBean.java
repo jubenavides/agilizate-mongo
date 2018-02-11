@@ -16,6 +16,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.bson.types.ObjectId;
 
 /**
  *
@@ -26,31 +27,31 @@ import javax.inject.Named;
 public class ClienteBean extends BaseBean implements Serializable {
     
     private List<Cliente> clientes;
-
+    
     private Cliente cliente;
-
+    
     private Cliente clienteSel;
-
+    
     @Inject
     private ClienteService clienteService;
-
+    
     @PostConstruct
     public void init() {
         this.clientes = this.clienteService.obtenerTodos();
         this.cliente = new Cliente();
     }
-
+    
     public List<Cliente> getclientes() {
         return clientes;
     }
-
+    
     @Override
     public void agregar() {
         this.cliente = new Cliente();
         super.agregar();
         
     }
-
+    
     @Override
     public void modificar() {
         super.modificar();
@@ -63,18 +64,18 @@ public class ClienteBean extends BaseBean implements Serializable {
         this.cliente.setEdad(this.clienteSel.getEdad());
         this.cliente.setCorreo(this.clienteSel.getCorreo());
     }
-
+    
     @Override
     public void detalles() {
         super.detalles();
         this.cliente = this.clienteSel;
     }
-
+    
     public void cancelar() {
         super.reset();
         this.cliente = new Cliente();
     }
-
+    
     public void guardar() {
         try {
             this.clienteService.crear(this.cliente);
@@ -87,22 +88,34 @@ public class ClienteBean extends BaseBean implements Serializable {
         this.clientes = this.clienteService.obtenerTodos();
     }
 
+    public void eliminar() {
+        try {
+            this.clienteService.eliminar(new ObjectId(this.clienteSel.getId()));
+            FacesUtil.addMessageInfo("Se elimino el cliente");
+        } catch (Exception ex) {
+            FacesUtil.addMessageError(null, "Ocurrí\u00f3 un error al actualizar la informaci\u00f3n");
+        }
+        super.reset();
+        this.cliente = new Cliente();
+        this.clientes = this.clienteService.obtenerTodos();
+    }
+
     public Cliente getCliente() {
         return cliente;
     }
-
+    
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-
+    
     public Cliente getClienteSel() {
         return clienteSel;
     }
-
+    
     public void setClienteSel(Cliente clienteSel) {
         this.clienteSel = clienteSel;
     }
-
+    
     public List<Cliente> getClientes() {
         return clientes;
     }
