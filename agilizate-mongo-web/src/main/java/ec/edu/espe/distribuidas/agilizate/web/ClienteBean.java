@@ -98,7 +98,7 @@ public class ClienteBean extends BaseBean implements Serializable {
                 FacesUtil.addMessageInfo("Se agregó el cliente: " + this.cliente.getNombre() + " " + this.cliente.getApellido());
             } else {
                 this.clienteService.modificar(this.cliente);
-                FacesUtil.addMessageInfo("Se modific\u00f3 el Tipo de Tour con c\u00f3digo: " + this.cliente.getNombre() + " " + this.cliente.getApellido());
+                FacesUtil.addMessageInfo("Se modific\u00f3 el cliente con c\u00f3digo: " + this.cliente.getCodigo());
             }
         } catch (Exception ex) {
             FacesUtil.addMessageError(null, "Ocurrí\u00f3 un error al actualizar la informaci\u00f3n");

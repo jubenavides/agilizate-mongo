@@ -45,13 +45,16 @@ public class PasatiempoService {
     public void crear(Pasatiempo pasatiempo) {
         this.pasatiempoFacade.save(pasatiempo);
     }
-
+    
     public void modificar(Pasatiempo pasatiempo) {
+        Pasatiempo aux = this.pasatiempoFacade.findOne("nombre", pasatiempo.getNombre());
+        pasatiempo.setId(aux.getId());
         this.pasatiempoFacade.save(pasatiempo);
     }
 
-    public void eliminar(ObjectId id) {
-        Pasatiempo pasatiempo = this.pasatiempoFacade.get(id);
+    public void eliminar(String nombre) {
+        Pasatiempo pasatiempo = this.pasatiempoFacade.findOne("nombre", nombre);
         this.pasatiempoFacade.delete(pasatiempo);
     }
+  
 }

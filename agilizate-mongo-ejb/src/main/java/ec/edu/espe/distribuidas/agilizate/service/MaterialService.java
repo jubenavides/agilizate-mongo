@@ -42,15 +42,16 @@ public class MaterialService {
     public void crear(Material material) {
         this.materialFacade.save(material);
     }
-
-    public void modificar(ObjectId id) {
-        Material material = this.materialFacade.get(id);
+    
+    public void modificar(Material material) {
+        Material aux = this.materialFacade.findOne("codigo", material.getCodigo());
+        material.setId(aux.getId());
         this.materialFacade.save(material);
     }
-  
-    public void eliminar(ObjectId id) {
-        Material material = this.materialFacade.get(id);
+
+    public void eliminar(String codigo) {
+        Material material = this.materialFacade.findOne("codigo", codigo);
         this.materialFacade.delete(material);
     }
-
+    
 }

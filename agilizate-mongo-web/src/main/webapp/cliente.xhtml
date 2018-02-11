@@ -47,7 +47,7 @@
                 <p:panel header="#{clienteBean.titulo} Cliente" visible="#{clienteBean.habilitaForm}">
                     <p:panelGrid columns="2">
                         <p:outputLabel for="codigo" value="Codigo" />
-                        <p:inputText id="codigo" value="#{clienteBean.cliente.codigo}"/>
+                        <p:inputText id="codigo" value="#{clienteBean.cliente.codigo}" disabled="#{clienteBean.enModificar}"/>
                         <p:outputLabel for="opTipoCliente" value="Tipo Cliente" />
                         <p:selectOneMenu id="opTipoCliente" value="#{clienteBean.cliente.codTipoCliente}">
                             <f:selectItems var="tipocliente" value="#{clienteBean.tipoClientes}" itemLabel="#{tipocliente.nombre}" itemValue="#{tipocliente.id}" />

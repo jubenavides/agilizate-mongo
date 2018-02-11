@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//ES" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/plantilla.xhtml">
+        <ui:define name="contenido">
+            <p:panel id="mainPnl" header="Niveles de dificultad" style="width: 50%; margin: auto;">
+                <p:dataTable var="dificultad" value="#{dificultadBean.dificultades}" 
+                             selectionMode="single" selection="#{dificultadBean.dificultadSel}" rowKey="#{dificultad.id}">
+                    <p:ajax event="rowSelect" update="@form" />
+                    <p:ajax event="rowUnselect" update="@form" />
+                    <p:column headerText="Nombre">
+                        <h:outputText value="#{dificultad.nombre}" />
+                    </p:column>
+                    <p:column headerText="Descripcion">
+                        <h:outputText value="#{dificultad.descripcion}" />
+                    </p:column>
+                </p:dataTable>
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                <p:commandButton value="Agregar" actionListener="#{dificultadBean.agregar()}" update="@form"/>
+                <p:commandButton id="modBtn" value="Modificar" actionListener="#{dificultadBean.modificar()}" update="@form" disabled="#{dificultadBean.dificultadSel eq null}"/>
+                <p:commandButton value="Eliminar" actionListener="#{dificultadBean.eliminar()}" update="@form" disabled="#{dificultadBean.dificultadSel eq null}" >
+                    <p:confirm header="Confirmaci&#243;n" message="Desea eliminar la dificultad: #{dificultadBean.dificultadSel.descripcion}}" icon="ui-icon-alert" />
+                </p:commandButton>
+                <p:panel header="#{dificultadBean.titulo} Nivel de dificultad" visible="#{dificultadBean.habilitaForm}">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel for="nombre" value="Nombre" />
+                        <p:inputText id="nombre" value="#{dificultadBean.dificultad.nombre}" disabled="#{dificultadBean.enModificar}"/>
+                        <p:outputLabel for="descripcion" value="Descripci&#243;n" />
+                        <p:inputTextarea id="descripcion" value="#{dificultadBean.dificultad.descripcion}" rows="2" cols="20" />
+                    </p:panelGrid>
+                    <p:commandButton value="Aceptar" actionListener="#{dificultadBean.guardar}" update="@form" />
+                    <p:commandButton value="Cancelar" actionListener="#{dificultadBean.cancelar}" update="@form" />
+
+                </p:panel>
+
+            </p:panel>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </ui:define>
+    </ui:composition>
+</html>

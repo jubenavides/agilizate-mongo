@@ -9,6 +9,8 @@ package ec.edu.espe.distribuidas.agilizate.model;
 
 import ec.edu.espe.distribuidas.nosql.mongo.BaseEntity;
 import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.IndexOptions;
+import org.mongodb.morphia.annotations.Indexed;
 
 /**
  *
@@ -17,10 +19,20 @@ import org.mongodb.morphia.annotations.Entity;
 @Entity(noClassnameStored = true, value = "material")
 public class Material extends BaseEntity {
 
+    @Indexed(options = @IndexOptions(name = "codigo_codigoUIdx", unique = true))
+    private String codigo;
     private String descripcion;
     private String imagen;
 
     public Material() {
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public String getDescripcion() {
@@ -41,7 +53,7 @@ public class Material extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Material{" + "descripcion=" + descripcion + ", imagen=" + imagen + '}';
+        return "Material{" + "codigo=" + codigo + ", descripcion=" + descripcion + ", imagen=" + imagen + '}';
     }
 
     @Override

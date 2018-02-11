@@ -44,13 +44,15 @@ public class TipoInstruccionService {
         this.tipoInstruccionFacade.save(tipoInstruccion);
     }
 
-    public void modificar(ObjectId id) {
-        TipoInstruccion tipoInstruccion = this.tipoInstruccionFacade.get(id);
+     public void modificar(TipoInstruccion tipoInstruccion) {
+        TipoInstruccion aux = this.tipoInstruccionFacade.findOne("codigo", tipoInstruccion.getCodigo());
+        tipoInstruccion.setId(aux.getId());
         this.tipoInstruccionFacade.save(tipoInstruccion);
     }
 
-    public void eliminar(ObjectId id) {
-        TipoInstruccion tipoInstruccion = this.tipoInstruccionFacade.get(id);
+    public void eliminar(String codigo) {
+        TipoInstruccion tipoInstruccion = this.tipoInstruccionFacade.findOne("codigo", codigo);
         this.tipoInstruccionFacade.delete(tipoInstruccion);
     }
+   
 }

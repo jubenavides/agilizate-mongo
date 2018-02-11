@@ -9,6 +9,8 @@ package ec.edu.espe.distribuidas.agilizate.model;
 
 import ec.edu.espe.distribuidas.nosql.mongo.BaseEntity;
 import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.IndexOptions;
+import org.mongodb.morphia.annotations.Indexed;
 
 /**
  *
@@ -17,12 +19,22 @@ import org.mongodb.morphia.annotations.Entity;
 @Entity(noClassnameStored = true, value = "tipo_instruccion")
 public class TipoInstruccion extends BaseEntity {
 
+    @Indexed(options = @IndexOptions(name = "codigo_codigoUIdx", unique = true))
+    private String codigo;
     private String nombre;
     private String descripcion;
 
     public TipoInstruccion() {
     }
 
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+    
     public String getNombre() {
         return nombre;
     }
@@ -41,7 +53,7 @@ public class TipoInstruccion extends BaseEntity {
 
     @Override
     public String toString() {
-        return "TipoInstruccion{" + "nombre=" + nombre + ", descripcion=" + descripcion + '}';
+        return "TipoInstruccion{" + "codigo=" + codigo + ", nombre=" + nombre + ", descripcion=" + descripcion + '}';
     }
 
     @Override

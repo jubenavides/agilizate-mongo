@@ -9,6 +9,8 @@ package ec.edu.espe.distribuidas.agilizate.model;
 
 import ec.edu.espe.distribuidas.nosql.mongo.BaseEntity;
 import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.IndexOptions;
+import org.mongodb.morphia.annotations.Indexed;
 
 /**
  *
@@ -17,6 +19,7 @@ import org.mongodb.morphia.annotations.Entity;
 @Entity(noClassnameStored = true, value = "pasatiempo")
 public class Pasatiempo extends BaseEntity {
 
+    @Indexed(options = @IndexOptions(name = "nombre_codigoUIdx", unique = true))
     private String nombre;
     private String descripcion;
 

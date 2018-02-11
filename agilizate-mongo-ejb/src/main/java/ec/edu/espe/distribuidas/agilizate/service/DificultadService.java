@@ -22,11 +22,11 @@ import org.bson.types.ObjectId;
 @Stateless
 @LocalBean
 public class DificultadService {
-     
+
     @EJB
     private MongoPersistence mp;
     private DificultadDAO dificultadFacade;
-    
+
     @PostConstruct
     public void init() {
         this.dificultadFacade = new DificultadDAO(Dificultad.class, mp.context());
@@ -44,13 +44,14 @@ public class DificultadService {
         this.dificultadFacade.save(dificultad);
     }
 
-    public void modificar(ObjectId id) {
-        Dificultad dificultad = this.dificultadFacade.get(id);
+    public void modificar(Dificultad dificultad) {
+        Dificultad aux = this.dificultadFacade.findOne("nombre", dificultad.getNombre());
+        dificultad.setId(aux.getId());
         this.dificultadFacade.save(dificultad);
     }
 
-    public void eliminar(ObjectId id) {
-        Dificultad dificultad = this.dificultadFacade.get(id);
+    public void eliminar(String nombre) {
+        Dificultad dificultad = this.dificultadFacade.findOne("nombre", nombre);
         this.dificultadFacade.delete(dificultad);
     }
 }
