@@ -9,7 +9,6 @@ import ec.edu.espe.distribuidas.agilizate.dao.GeneroDAO;
 import ec.edu.espe.distribuidas.agilizate.enums.CodGeneroEnum;
 import ec.edu.espe.distribuidas.agilizate.model.Genero;
 import ec.edu.espe.distribuidas.nosql.mongo.MongoPersistence;
-import java.nio.charset.CodingErrorAction;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -24,11 +23,11 @@ import org.bson.types.ObjectId;
 @Stateless
 @LocalBean
 public class GeneroService {
-    
+
     @EJB
     private MongoPersistence mp;
     private GeneroDAO generoFacade;
-    
+
     @PostConstruct
     public void init() {
         this.generoFacade = new GeneroDAO(Genero.class, mp.context());
@@ -42,11 +41,16 @@ public class GeneroService {
         return this.generoFacade.get(id);
     }
 
+    public Genero obtenerPorId(CodGeneroEnum codigo) {
+        Genero aux = this.generoFacade.findOne("codigo", codigo);
+        return aux;
+    }
+
     public void crear(Genero genero) {
         this.generoFacade.save(genero);
     }
 
-     public void modificar(Genero genero) {
+    public void modificar(Genero genero) {
         Genero aux = this.generoFacade.findOne("codigo", genero.getCodigo());
         genero.setId(aux.getId());
         this.generoFacade.save(genero);

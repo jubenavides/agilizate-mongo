@@ -41,6 +41,12 @@ public class PasatiempoService {
     public Pasatiempo obtenerPorCodigo(ObjectId id) {
         return this.pasatiempoFacade.get(id);
     }
+    
+    public Pasatiempo obtenerPorId(String id) {
+        Pasatiempo aux = new Pasatiempo();
+        aux.setId(id);
+        return this.pasatiempoFacade.get(aux.getIdOb());
+    }
 
     public void crear(Pasatiempo pasatiempo) {
         this.pasatiempoFacade.save(pasatiempo);

@@ -54,6 +54,10 @@ public abstract class BaseEntity {
     public Date getLastChange() {
         return lastChange;
     }
+    
+    public ObjectId getIdOb() {
+        return id;
+    }
 
     @PrePersist
     public void prePersist() {

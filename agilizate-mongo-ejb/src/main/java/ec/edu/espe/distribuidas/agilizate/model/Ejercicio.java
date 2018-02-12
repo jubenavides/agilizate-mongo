@@ -10,7 +10,6 @@ package ec.edu.espe.distribuidas.agilizate.model;
 import ec.edu.espe.distribuidas.agilizate.enums.CodCategoriaEnum;
 import ec.edu.espe.distribuidas.agilizate.enums.CodGeneroEnum;
 import ec.edu.espe.distribuidas.nosql.mongo.BaseEntity;
-import java.io.Serializable;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Reference;
 
@@ -24,7 +23,7 @@ public class Ejercicio extends BaseEntity {
 
     private String nombre;
     private String descripcion;
-    private Integer codPasatiempo;
+    private String codPasatiempo;
     private CodGeneroEnum codGenero;
     private CodCategoriaEnum codCategoria;
     @Reference
@@ -59,11 +58,11 @@ public class Ejercicio extends BaseEntity {
         this.descripcion = descripcion;
     }
 
-    public Integer getCodPasatiempo() {
+    public String getCodPasatiempo() {
         return codPasatiempo;
     }
 
-    public void setCodPasatiempo(Integer codPasatiempo) {
+    public void setCodPasatiempo(String codPasatiempo) {
         this.codPasatiempo = codPasatiempo;
     }
 

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//ES" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/plantilla.xhtml">
+        <ui:define name="contenido">
+            <p:panel id="mainPnl" header="Ejercicios" style="width: 80%; margin: auto;">
+                <p:panel id="buscPnl" header="Busqueda">
+                    <p:outputLabel for="filtroCmb" value="Buscar:" />
+                    <p:selectOneMenu id="filtroCmb" value="#{ejercicioAdminBean.filtro}">
+                        <p:ajax update="buscPnl ejerciciosTbl" listener="#{ejercicioAdminBean.cambiarFiltro()}"/>
+                        <f:selectItem itemLabel="Dificultad" itemValue="DIF" />
+                        <f:selectItem itemLabel="Pasatiempo" itemValue="PAS" />
+                        <f:selectItem itemLabel="Tipo Cliente" itemValue="TPC" />
+                        <f:selectItem itemLabel="Categoria" itemValue="CAT" />
+                        <f:selectItem itemLabel="Material" itemValue="MAT" />
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Opciones"></p:outputLabel>
+                    <p:selectOneMenu id="opDificultad" value="#{ejercicioAdminBean.codDificultad}" rendered="#{ejercicioAdminBean.enBusquedaPorDificultad}">
+                        <f:selectItems var="difi" value="#{ejercicioAdminBean.dificultades}" itemLabel="#{difi.nombre}" itemValue="#{difi.id}" />
+                        <p:ajax update="ejerciciosTbl" listener="#{ejercicioAdminBean.buscar()}"/>
+                    </p:selectOneMenu>
+                    <p:selectOneMenu id="opPasatiempo" value="#{ejercicioAdminBean.codPasatiempo}" rendered="#{ejercicioAdminBean.enBusquedaPorPasatiempo}">
+                        <f:selectItems var="pas" value="#{ejercicioAdminBean.pasatiempos}" itemLabel="#{pas.nombre}" itemValue="#{pas.id}" />
+                        <p:ajax update="ejerciciosTbl" listener="#{ejercicioAdminBean.buscar()}"/>
+                    </p:selectOneMenu>
+                    <p:selectOneMenu id="opTipoCliente" value="#{ejercicioAdminBean.codTipoCliente}" rendered="#{ejercicioAdminBean.enBusquedaPorTipoCliente}">
+                        <f:selectItems var="tpc" value="#{ejercicioAdminBean.tipoClientes}" itemLabel="#{tpc.nombre}" itemValue="#{tpc.id}" />
+                        <p:ajax update="ejerciciosTbl" listener="#{ejercicioAdminBean.buscar()}"/>
+                    </p:selectOneMenu>
+                    <p:selectOneMenu id="opCategoria" value="#{ejercicioAdminBean.codCategoria}" rendered="#{ejercicioAdminBean.enBusquedaPorCategoria}">
+                        <f:selectItems var="cat" value="#{ejercicioAdminBean.categorias}" itemLabel="#{cat.descripcion}" itemValue="#{cat.codigo}" />
+                        <p:ajax update="ejerciciosTbl" listener="#{ejercicioAdminBean.buscar()}"/>
+                    </p:selectOneMenu>
+                    <p:selectOneMenu id="opMaterial" value="#{ejercicioAdminBean.codMaterial}" rendered="#{ejercicioAdminBean.enBusquedaPorMaterial}">
+                        <f:selectItems var="mat" value="#{ejercicioAdminBean.materiales}" itemLabel="#{mat.descripcion}" itemValue="#{mat.codigo}" />
+                        <p:ajax update="ejerciciosTbl" listener="#{ejercicioAdminBean.buscar()}"/>
+                    </p:selectOneMenu>
+                </p:panel>
+                <p:dataTable id="ejerciciosTbl" var="ejercicio" value="#{ejercicioAdminBean.ejercicios}" 
+                             selectionMode="single" selection="#{ejercicioAdminBean.ejercicioSel}" rowKey="#{ejercicio.id}">
+                    <p:ajax event="rowSelect" update="@form" />
+                    <p:ajax event="rowUnselect" update="@form" />
+                     <p:column headerText="Dificultad" sortBy="#{ejercicio.dificultad.nombre}">
+                        <h:outputText value="#{ejercicio.dificultad.nombre}"/>
+                    </p:column>
+                    <p:column headerText="Nombre">
+                        <h:outputText value="#{ejercicio.nombre}"/>
+                    </p:column>
+                    <p:column headerText="Categoria" sortBy="#{ejercicio.categoria.descripcion}">
+                        <h:outputText value="#{ejercicio.categoria.descripcion}"/>
+                    </p:column>
+                    <p:column headerText="Genero" sortBy="#{ejercicio.genero.descripcion}">
+                        <h:outputText value="#{ejercicio.genero.descripcion}"/>
+                    </p:column>
+                    <p:column headerText="Tipo Cliente" sortBy="#{ejercicio.tipoCliente.nombre}">
+                        <h:outputText value="#{ejercicio.tipoCliente.nombre}"/>
+                    </p:column>
+                    <p:column headerText="Pasatiempo" sortBy="#{ejercicio.pasatiempo.nombre}">
+                        <h:outputText value="#{ejercicio.pasatiempo.nombre}"/>
+                    </p:column>
+                    <p:column headerText="Material" sortBy="#{ejercicio.material.descripcion}">
+                        <h:outputText value="#{ejercicio.material.descripcion}"/>
+                    </p:column>
+                    <p:column headerText="Descripcion" sortBy="#{ejercicio.descripcion}">
+                        <h:outputText value="#{ejercicio.descripcion}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                <p:commandButton value="Agregar" actionListener="#{ejercicioAdminBean.agregar()}" update="@form ejerciciosTbl"/>
+                <p:commandButton id="modBtn" value="Modificar" actionListener="#{ejercicioAdminBean.modificar()}" disabled="#{ejercicioAdminBean.ejercicioSel eq null}" update="@form ejerciciosTbl" process="@this" ajax="true"/>
+                <p:commandButton value="Eliminar" actionListener="#{ejercicioAdminBean.eliminar()}" update="@form ejerciciosTbl" disabled="#{ejercicioAdminBean.ejercicioSel eq null}" >
+                    <p:confirm header="Confirmaci&#243;n" message="Desea eliminar el #{ejercicioAdminBean.ejercicioSel.descripcion}}" icon="ui-icon-alert" />
+                </p:commandButton>
+                <p:panel header="#{ejercicioAdminBean.titulo} Ejercicio" visible="#{ejercicioAdminBean.habilitaForm}">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel for="nombre" value="Nombre" />
+                        <p:inputText id="nombre" value="#{ejercicioAdminBean.ejercicio.nombre}" />
+                        <p:outputLabel for="dificultad" value="Dificultad" />
+                        <p:selectOneMenu id="dificultad" value="#{ejercicioAdminBean.codDificultad}">
+                            <f:selectItems var="dificultad" value="#{ejercicioAdminBean.dificultades}" itemLabel="#{dificultad.nombre}" itemValue="#{dificultad.id}" />
+                        </p:selectOneMenu>
+                        <p:outputLabel for="categoria" value="Categoria"/>
+                        <p:selectOneMenu id="categoria" value="#{ejercicioAdminBean.ejercicio.codCategoria}">
+                            <f:selectItems var="categoria" value="#{ejercicioAdminBean.categorias}" itemLabel="#{categoria.descripcion}" itemValue="#{categoria.codigo}" />
+                        </p:selectOneMenu>
+                        <p:outputLabel for="genero" value="Genero"/>
+                        <p:selectOneMenu id="genero" value="#{ejercicioAdminBean.ejercicio.codGenero}">
+                            <f:selectItems var="genero" value="#{ejercicioAdminBean.generos}" itemLabel="#{genero.descripcion}" itemValue="#{genero.codigo}" />
+                        </p:selectOneMenu>
+                        <p:outputLabel for="pasatiempo" value="Pasatiempo"/>
+                        <p:selectOneMenu id="pasatiempo" value="#{ejercicioAdminBean.ejercicio.codPasatiempo}">
+                            <f:selectItems var="pasatiempo" value="#{ejercicioAdminBean.pasatiempos}" itemLabel="#{pasatiempo.nombre}" itemValue="#{pasatiempo.id}" />
+                        </p:selectOneMenu>
+                        <p:outputLabel for="material" value="Material"/>
+                        <p:selectOneMenu id="material" value="#{ejercicioAdminBean.codMaterial}">
+                            <f:selectItems var="material" value="#{ejercicioAdminBean.materiales}" itemLabel="#{material.descripcion}" itemValue="#{material.id}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel for="tipCliente" value="Tipo de cliente"/>
+                        <p:selectOneMenu id="tipCliente" value="#{ejercicioAdminBean.codTipoCliente}">
+                            <f:selectItems var="tipCliente" value="#{ejercicioAdminBean.tipoClientes}" itemLabel="#{tipCliente.nombre}" itemValue="#{tipCliente.id}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel for="descripcion" value="Descripci&#243;n" />
+                        <p:inputTextarea id="descripcion" value="#{ejercicioAdminBean.ejercicio.descripcion}" rows="2" cols="20" />
+                    </p:panelGrid>
+                    <p:commandButton value="Aceptar" actionListener="#{ejercicioAdminBean.guardar}" update="@form ejerciciosTbl" />
+                    <p:commandButton value="Cancelar" actionListener="#{ejercicioAdminBean.cancelar}" update="@form" />
+                </p:panel>
+            </p:panel>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </ui:define>
+    </ui:composition>
+</html>

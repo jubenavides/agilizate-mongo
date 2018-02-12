@@ -40,6 +40,11 @@ public class CategoriaService {
     public Categoria obtenerPorCodigo(ObjectId id) {
         return this.categoriaFacade.get(id);
     }
+    
+    public Categoria obtenerPorId(CodCategoriaEnum codigo) {
+        Categoria aux = this.categoriaFacade.findOne("codigo", codigo);
+        return aux;
+    }
 
     public void crear(Categoria categoria) {
         this.categoriaFacade.save(categoria);

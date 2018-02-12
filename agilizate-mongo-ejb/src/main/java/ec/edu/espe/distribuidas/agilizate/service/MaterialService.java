@@ -38,6 +38,12 @@ public class MaterialService {
     public Material obtenerPorCodigo(ObjectId id) {
         return this.materialFacade.get(id);
     }
+    
+     public Material obtenerPorId(String id) {
+        Material aux = new Material();
+        aux.setId(id);
+        return this.materialFacade.get(aux.getIdOb());
+    }
 
     public void crear(Material material) {
         this.materialFacade.save(material);

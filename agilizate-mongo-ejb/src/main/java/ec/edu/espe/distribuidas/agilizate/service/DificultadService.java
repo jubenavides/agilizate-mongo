@@ -40,6 +40,12 @@ public class DificultadService {
         return this.dificultadFacade.get(id);
     }
 
+    public Dificultad obtenerPorId(String id) {
+        Dificultad aux = new Dificultad();
+        aux.setId(id);
+        return this.dificultadFacade.get(aux.getIdOb());
+    }
+
     public void crear(Dificultad dificultad) {
         this.dificultadFacade.save(dificultad);
     }

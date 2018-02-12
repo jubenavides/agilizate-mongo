@@ -22,11 +22,11 @@ import org.bson.types.ObjectId;
 @Stateless
 @LocalBean
 public class TipoClienteService {
-    
+
     @EJB
     private MongoPersistence mp;
     private TipoClienteDAO tipoClienteFacade;
-    
+
     @PostConstruct
     public void init() {
         this.tipoClienteFacade = new TipoClienteDAO(TipoCliente.class, mp.context());
@@ -40,6 +40,12 @@ public class TipoClienteService {
         return this.tipoClienteFacade.get(id);
     }
 
+    public TipoCliente obtenerPorId(String id) {
+        TipoCliente aux = new TipoCliente();
+        aux.setId(id);
+        return this.tipoClienteFacade.get(aux.getIdOb());
+    }
+
     public void crear(TipoCliente tipoCliente) {
         this.tipoClienteFacade.save(tipoCliente);
     }
@@ -48,7 +54,7 @@ public class TipoClienteService {
         TipoCliente tipoCliente = this.tipoClienteFacade.get(id);
         this.tipoClienteFacade.save(tipoCliente);
     }
-    
+
     public void eliminar(ObjectId id) {
         TipoCliente tipoCliente = this.tipoClienteFacade.get(id);
         this.tipoClienteFacade.delete(tipoCliente);
