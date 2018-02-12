@@ -10,6 +10,8 @@ package ec.edu.espe.distribuidas.agilizate.model;
 import ec.edu.espe.distribuidas.agilizate.enums.CodGeneroEnum;
 import ec.edu.espe.distribuidas.nosql.mongo.BaseEntity;
 import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.IndexOptions;
+import org.mongodb.morphia.annotations.Indexed;
 
 /**
  *
@@ -18,6 +20,7 @@ import org.mongodb.morphia.annotations.Entity;
 @Entity(noClassnameStored = true, value = "genero")
 public class Genero extends BaseEntity {
 
+    @Indexed(options = @IndexOptions(name = "codigo_codigoUIdx", unique = true))
     private CodGeneroEnum codigo;
     private String descripcion;
 

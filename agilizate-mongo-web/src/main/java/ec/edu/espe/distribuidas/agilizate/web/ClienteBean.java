@@ -22,6 +22,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.bson.types.ObjectId;
 
 /**
  *
@@ -91,6 +92,9 @@ public class ClienteBean extends BaseBean implements Serializable {
     }
 
     public void guardar() {
+        this.cliente.setTipoCliente(this.tipoClienteService.obtenerPorCodigo(new ObjectId(this.cliente.getCodTipoCliente())));
+        this.cliente.setGenero(this.generoService.obtenerPorCodigo(new ObjectId(this.cliente.getCodGenero())));
+        this.cliente.setPasatiempo(this.pasatiempoService.obtenerPorCodigo(new ObjectId(this.cliente.getCodPasatiempo())));
         try {
             if (this.enAgregar) {
                 this.clienteService.crear(this.cliente);
@@ -105,6 +109,7 @@ public class ClienteBean extends BaseBean implements Serializable {
         super.reset();
         this.cliente = new Cliente();
         this.clientes = this.clienteService.obtenerTodos();
+        
     }
 
     public void eliminar() {

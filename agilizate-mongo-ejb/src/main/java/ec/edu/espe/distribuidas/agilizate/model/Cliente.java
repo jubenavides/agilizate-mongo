@@ -7,7 +7,6 @@
  */
 package ec.edu.espe.distribuidas.agilizate.model;
 
-import ec.edu.espe.distribuidas.agilizate.enums.CodGeneroEnum;
 import ec.edu.espe.distribuidas.nosql.mongo.BaseEntity;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.IndexOptions;
@@ -25,7 +24,7 @@ public class Cliente extends BaseEntity {
     @Indexed(options = @IndexOptions(name = "codigo_codigoUIdx", unique = true))
     private String codigo;
     private String codTipoCliente;
-    private CodGeneroEnum codGenero;
+    private String codGenero;
     private String codPasatiempo;
     private String nombre;
     private String apellido;
@@ -49,11 +48,11 @@ public class Cliente extends BaseEntity {
         this.codigo = codigo;
     }
 
-    public CodGeneroEnum getCodGenero() {
+    public String getCodGenero() {
         return codGenero;
     }
 
-    public void setCodGenero(CodGeneroEnum codGenero) {
+    public void setCodGenero(String codGenero) {
         this.codGenero = codGenero;
     }
 
@@ -72,8 +71,6 @@ public class Cliente extends BaseEntity {
     public void setCodPasatiempo(String codPasatiempo) {
         this.codPasatiempo = codPasatiempo;
     }
-
-    
 
     public String getNombre() {
         return nombre;
