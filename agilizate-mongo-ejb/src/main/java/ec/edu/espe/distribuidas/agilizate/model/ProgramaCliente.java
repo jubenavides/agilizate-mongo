@@ -21,6 +21,7 @@ import org.mongodb.morphia.annotations.Reference;
 public class ProgramaCliente extends BaseEntity{
 
     private String descripcion;
+    private String codCliente;
     private Date fechaInicio;
     private Date fechaFin;
     private Integer ejercicioFisico;
@@ -40,6 +41,14 @@ public class ProgramaCliente extends BaseEntity{
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public String getCodCliente() {
+        return codCliente;
+    }
+
+    public void setCodCliente(String codCliente) {
+        this.codCliente = codCliente;
     }
 
     public Date getFechaInicio() {

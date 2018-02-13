@@ -13,7 +13,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import org.bson.types.ObjectId;
 
 /**
  *
@@ -36,8 +35,8 @@ public class ClienteService {
         return this.clienteFacade.find().asList();
     }
 
-    public Cliente obtenerPorCodigo(ObjectId id) {
-        return this.clienteFacade.get(id);
+    public Cliente obtenerPorCodigo(String codigo) {
+        return this.clienteFacade.findOne("codigo", codigo);
     }
 
     public void crear(Cliente cliente) {

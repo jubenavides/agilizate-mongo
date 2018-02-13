@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//ES" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/plantilla.xhtml">
+        <ui:define name="contenido">
+            <p:panel id="mainPnl" header="Programa Ejercicios" style="width: 80%; margin: auto;">
+                <p:panel id="buscPnl" header="Busqueda" rendered="#{programaClienteBean.enBusqueda}">
+                    <p:outputLabel for="codUsuario" value="Codigo Usuario:" />
+                    <p:inputText id="codUsuario" value="#{programaClienteBean.programa.codCliente}" />
+                    <p:commandButton value="Buscar" actionListener="#{programaClienteBean.buscar(programaClienteBean.programa.codCliente)}" update="@form"/>        
+                </p:panel>
+                <p:panel id="mostrPnl" header="Programas Cliente" rendered="#{programaClienteBean.enEncontrado}">
+                    <p:dataTable var="programa" value="#{programaClienteBean.programas}" 
+                                 selectionMode="single" selection="#{programaClienteBean.programaSel}" rowKey="#{programa.id}">
+                        <p:ajax event="rowSelect" update="@form" />
+                        <p:ajax event="rowUnselect" update="@form" />
+                        <p:column headerText="Usuario" style="width: 25%">
+                            <h:outputText value="#{programa.cliente.nombre}" />
+                        </p:column>
+                        <p:column headerText="Descripcion" style="width: 25%">
+                            <h:outputText value="#{programa.descripcion}" />
+                        </p:column>
+                        <p:column headerText="Fecha Inicio" style="width: 25%">
+                            <h:outputText value="#{programa.fechaInicio}" />
+                        </p:column>
+                        <p:column headerText="Fecha Fin" style="width: 25%">
+                            <h:outputText value="#{programa.fechaFin}" />
+                        </p:column>
+                        <p:column headerText="Estado" style="width: 25%">
+                            <h:outputText value="#{programa.estado.texto}" />
+                        </p:column>
+                        <p:column headerText="Duracion" style="width: 25%">
+                            <h:outputText value="#{programa.totalDuracion}" />
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton value="Generar" actionListener="#{programaClienteBean.generar()}" update="@form"/>        
+                    <p:commandButton value="Eliminar" actionListener="#{programaClienteBean.eliminar()}" update="@form"/>        
+                </p:panel>
+                <p:panel id="programaCliente" header="Crear Programa Cliente" rendered="#{programaClienteBean.enAgregar}">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel for="codUser" value="Codigo Usuario:" />
+                        <p:inputText id="codUser" value="#{programaClienteBean.programa.cliente.codigo}" disabled="true"/>
+                        <p:outputLabel for="nombreUsuario" value="Usuario:" />
+                        <p:inputText id="nombreUsuario" value="#{programaClienteBean.cliente.nombre}" disabled="true"/>
+                        <p:outputLabel for="fechaInicioCal" value="Fecha Inicio" />
+                        <p:calendar id="fechaInicioCal" value="#{programaClienteBean.programa.fechaInicio}" showOn="button" pattern="yyyy/MM/dd" />
+                        <p:outputLabel for="fisico" value="Ejercicios Fisicos" />
+                        <p:selectOneMenu id="fisico" value="#{programaClienteBean.programa.ejercicioFisico}" >
+                            <f:selectItem itemLabel="1" itemValue="1" />
+                            <f:selectItem itemLabel="2" itemValue="2" />
+                            <f:selectItem itemLabel="3" itemValue="3" />
+                            <f:selectItem itemLabel="4" itemValue="4" />
+                            <f:selectItem itemLabel="5" itemValue="5" />
+                            <f:selectItem itemLabel="6" itemValue="6" />
+                            <f:selectItem itemLabel="7" itemValue="7" />
+                            <f:selectItem itemLabel="8" itemValue="8" />
+                            <f:selectItem itemLabel="9" itemValue="9" />
+                            <f:selectItem itemLabel="10" itemValue="10" />
+                        </p:selectOneMenu>
+                        <p:outputLabel for="mental" value="Ejercicios Mentales" />
+                        <p:selectOneMenu id="mental" value="#{programaClienteBean.programa.ejercicioMental}" >
+                            <f:selectItem itemLabel="1" itemValue="1" />
+                            <f:selectItem itemLabel="2" itemValue="2" />
+                            <f:selectItem itemLabel="3" itemValue="3" />
+                            <f:selectItem itemLabel="4" itemValue="4" />
+                            <f:selectItem itemLabel="5" itemValue="5" />
+                            <f:selectItem itemLabel="6" itemValue="6" />
+                            <f:selectItem itemLabel="7" itemValue="7" />
+                            <f:selectItem itemLabel="8" itemValue="8" />
+                            <f:selectItem itemLabel="9" itemValue="9" />
+                            <f:selectItem itemLabel="10" itemValue="10" />
+                        </p:selectOneMenu>
+                        <p:outputLabel for="combinado" value="Ejercicios Combinados" />
+                        <p:selectOneMenu id="combinado" value="#{programaClienteBean.programa.ejercicioCombinado}" >
+                            <f:selectItem itemLabel="1" itemValue="1" />
+                            <f:selectItem itemLabel="2" itemValue="2" />
+                            <f:selectItem itemLabel="3" itemValue="3" />
+                            <f:selectItem itemLabel="4" itemValue="4" />
+                            <f:selectItem itemLabel="5" itemValue="5" />
+                            <f:selectItem itemLabel="6" itemValue="6" />
+                            <f:selectItem itemLabel="7" itemValue="7" />
+                            <f:selectItem itemLabel="8" itemValue="8" />
+                            <f:selectItem itemLabel="9" itemValue="9" />
+                            <f:selectItem itemLabel="10" itemValue="10" />
+                        </p:selectOneMenu>
+                        <p:outputLabel for="estado" value="Estado" />
+                        <p:inputText id="estado" value="#{programaClienteBean.programa.estado.texto}" disabled="true"/>
+                        <p:outputLabel for="duracion" value="Duracion" />
+                        <p:inputText id="duracion" value="#{programaClienteBean.programa.totalDuracion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="Crear" actionListener="#{programaClienteBean.crear()}" update="@form"/>    
+                    <p:commandButton value="Cancelar" actionListener="#{programaClienteBean.cancelar()}" update="@form"/>        
+                </p:panel>
+            </p:panel>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//ES" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/plantilla.xhtml">
+        <ui:define name="contenido">
+            <p:panel id="mainPnl" header="Seguimiento Programas" style="width: 80%; margin: auto;">
+                <p:panel id="buscPnl" header="Busqueda" rendered="#{seguimientoBean.enBusqueda}">
+                    <p:outputLabel for="codUsuario" value="Codigo Usuario:" />
+                    <p:inputText id="codUsuario" value="#{seguimientoBean.seguimiento.codCliente}" />
+                    <p:commandButton value="Buscar" actionListener="#{seguimientoBean.buscar(seguimientoBean.seguimiento.codCliente)}" update="@form"/>        
+                </p:panel>
+                <p:panel id="mostrPnl" header="Programas Cliente" rendered="#{seguimientoBean.enEncontrado}">
+                    <p:dataTable var="seguimiento" value="#{seguimientoBean.seguimientos}" 
+                                 selectionMode="single" selection="#{seguimientoBean.seguimientoSel}" rowKey="#{seguimiento.codigo}">
+                        <p:ajax event="rowSelect" update="@form" />
+                        <p:ajax event="rowUnselect" update="@form" />
+                        <p:column headerText="Codigo Seguimiento" style="width: 8%">
+                            <h:outputText value="#{seguimiento.codigo}" />
+                        </p:column>
+                        <p:column headerText="Codigo Programa" style="width: 25%">
+                            <h:outputText value="#{seguimiento.programaCliente.programaClientePK.codPrograma}" />
+                        </p:column>
+                        <p:column headerText="Usuario" style="width: 25%">
+                            <h:outputText value="#{seguimiento.programaCliente.cliente.nombre}" />
+                        </p:column>
+                        <p:column headerText="Avance" style="width: 25%">
+                            <h:outputText value="#{seguimiento.avance}" />
+                        </p:column>
+                        <p:column headerText="Calificacion App" style="width: 25%">
+                            <h:outputText value="#{seguimiento.calificacionAplicacion}" />
+                        </p:column>
+                        <p:column headerText="TotalDuracion" style="width: 25%">
+                            <h:outputText value="#{seguimiento.totalDuracion}" />
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton value="Generar" actionListener="#{seguimientoBean.generar()}" update="@form"/>        
+                    <p:commandButton value="Eliminar" actionListener="#{seguimientoBean.eliminar()}" update="@form"/>        
+                </p:panel>
+                <p:panel id="programaCliente" header="Crear Programa Cliente" rendered="#{seguimientoBean.enAgregar}">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel for="codSegui" value="Codigo Seguimiento" />
+                        <p:inputText id="codSegui" value="#{seguimientoBean.seguimiento.codigo}" disabled="true"/>
+                        <p:outputLabel for="opCodPrograma" value="Codigo Programa:" />
+                        <p:selectOneMenu id="opCodPrograma" value="#{seguimientoBean.seguimiento.codPrograma}">
+                            <f:selectItems var="opcodPrograma" value="#{seguimientoBean.programasClientes}" itemLabel="#{opcodPrograma.programaClientePK.codPrograma}" itemValue="#{opcodPrograma.programaClientePK.codPrograma}" />
+                        </p:selectOneMenu>
+                        <p:outputLabel for="nombreUsuario" value="Usuario:" />
+                        <p:inputText id="nombreUsuario" value="#{seguimientoBean.cliente.nombre}" disabled="true"/>
+                        <p:outputLabel for="avance" value="Porcentaje de Avance" />
+                        <p:inputText id="avance" value="#{seguimientoBean.seguimiento.avance}"/>
+                        <p:outputLabel for="calificacion" value="Calificacion APP" />
+                        <p:inputText id="calificacion" value="#{seguimientoBean.seguimiento.calificacionAplicacion}"/>
+                        <p:outputLabel for="duracion" value="Duracion" />
+                        <p:inputText id="duracion" value="#{seguimientoBean.seguimiento.totalDuracion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="Crear" actionListener="#{seguimientoBean.crear()}" update="@form"/>    
+                    <p:commandButton value="Cancelar" actionListener="#{seguimientoBean.cancelar()}" update="@form"/>        
+                </p:panel>
+            </p:panel>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </ui:define>
+    </ui:composition>
+</html>
