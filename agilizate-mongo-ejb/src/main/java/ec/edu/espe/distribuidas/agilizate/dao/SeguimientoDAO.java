@@ -6,6 +6,7 @@
 package ec.edu.espe.distribuidas.agilizate.dao;
 
 import ec.edu.espe.distribuidas.agilizate.model.Cliente;
+import ec.edu.espe.distribuidas.agilizate.model.ProgramaCliente;
 import ec.edu.espe.distribuidas.agilizate.model.Seguimiento;
 import java.util.List;
 import org.bson.types.ObjectId;
@@ -19,13 +20,15 @@ import org.mongodb.morphia.query.Query;
  */
 public class SeguimientoDAO  extends BasicDAO<Seguimiento, ObjectId> {
     
+    private ProgramaClienteDAO programClienteDAO;
+    
     public SeguimientoDAO(Class<Seguimiento> objectEntity, Datastore ds) {
         super(objectEntity, ds);
     }
     
     public List<Seguimiento> findByCliente(Cliente cliente){
         Query<Seguimiento> q = getDatastore().createQuery(Seguimiento.class);
-        q.criteria("cliente").equal(cliente.getCodigo());
+        q.criteria("codCliente").equal(cliente.getCodigo());
         return q.asList();
     }
     

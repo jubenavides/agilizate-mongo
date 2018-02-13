@@ -7,6 +7,7 @@
  */
 package ec.edu.espe.distribuidas.agilizate.model;
 
+import ec.edu.espe.distribuidas.agilizate.enums.EstadoProgramaClienteEnum;
 import ec.edu.espe.distribuidas.nosql.mongo.BaseEntity;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Reference;
@@ -19,8 +20,11 @@ import org.mongodb.morphia.annotations.Reference;
 public class Seguimiento extends BaseEntity {
 
     private Integer avance;
-    private Integer calificacionAplicacion;
     private Integer totalDuracion;
+    private String codCliente;
+    private String codPrograma;
+    private EstadoProgramaClienteEnum estado;
+    
     @Reference
     private ProgramaCliente programaCliente;
 
@@ -35,14 +39,6 @@ public class Seguimiento extends BaseEntity {
         this.avance = avance;
     }
 
-    public Integer getCalificacionAplicacion() {
-        return calificacionAplicacion;
-    }
-
-    public void setCalificacionAplicacion(Integer calificacionAplicacion) {
-        this.calificacionAplicacion = calificacionAplicacion;
-    }
-
     public Integer getTotalDuracion() {
         return totalDuracion;
     }
@@ -51,6 +47,30 @@ public class Seguimiento extends BaseEntity {
         this.totalDuracion = totalDuracion;
     }
 
+    public String getCodCliente() {
+        return codCliente;
+    }
+
+    public void setCodCliente(String codCliente) {
+        this.codCliente = codCliente;
+    }
+
+    public String getCodPrograma() {
+        return codPrograma;
+    }
+
+    public EstadoProgramaClienteEnum getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoProgramaClienteEnum estado) {
+        this.estado = estado;
+    }
+
+    public void setCodPrograma(String codPrograma) {
+        this.codPrograma = codPrograma;
+    }
+    
     public ProgramaCliente getProgramaCliente() {
         return programaCliente;
     }
@@ -61,7 +81,7 @@ public class Seguimiento extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Seguimiento{" + "avance=" + avance + ", calificacionAplicacion=" + calificacionAplicacion + ", totalDuracion=" + totalDuracion + ", programaCliente=" + programaCliente + '}';
+        return "Seguimiento{" + "avance=" + avance + ", totalDuracion=" + totalDuracion + ", codCliente=" + codCliente + ", codPrograma=" + codPrograma + ", estado=" + estado + ", programaCliente=" + programaCliente + '}';
     }
 
     @Override

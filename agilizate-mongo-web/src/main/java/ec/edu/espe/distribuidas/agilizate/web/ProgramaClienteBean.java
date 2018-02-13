@@ -29,7 +29,6 @@ import javax.inject.Named;
 public class ProgramaClienteBean extends BaseBean implements Serializable {
 
     private Cliente cliente;
-    private Integer codCliente;
     private ProgramaCliente programa;
     private List<ProgramaCliente> programas;
     private ProgramaCliente programaSel;
@@ -117,14 +116,6 @@ public class ProgramaClienteBean extends BaseBean implements Serializable {
 
     public Cliente getCliente() {
         return cliente;
-    }
-
-    public Integer getCodCliente() {
-        return codCliente;
-    }
-
-    public void setCodCliente(Integer codCliente) {
-        this.codCliente = codCliente;
     }
 
     public ProgramaCliente getPrograma() {

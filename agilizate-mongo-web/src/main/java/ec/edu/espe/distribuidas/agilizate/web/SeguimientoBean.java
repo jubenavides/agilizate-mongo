@@ -18,7 +18,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.bson.types.ObjectId;
 
 /**
  *
@@ -62,7 +61,7 @@ public class SeguimientoBean extends BaseBean implements Serializable {
     }
     
     public void buscar(String codigo) {
-        this.cliente = this.clienteService.obtenerPorCodigo(new ObjectId(codigo));
+        this.cliente = this.clienteService.obtenerPorCodigo(codigo);
         if (cliente != null) {
             enEncontrado = true;
             this.seguimientos = this.seguimientoService.obtenerPorCliente(cliente);
@@ -91,12 +90,12 @@ public class SeguimientoBean extends BaseBean implements Serializable {
        public void eliminar()
     {
         try {
-            this.seguimientoService.eliminar(seguimiento);
+            this.seguimientoService.eliminar(this.seguimientoSel);
             FacesUtil.addMessageInfo("Se elimino el registro ");
             this.seguimientoSel = null;
             this.init();
         } catch (Exception e) {
-            FacesUtil.addMessageError(null, "No se puede eliminar el registro seleccionado. Verifique que no tenga informacion relacionada.");
+            FacesUtil.addMessageError(null, "No se puede eliminar el registro seleccionado.");
         }
     }
        

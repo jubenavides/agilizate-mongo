@@ -42,6 +42,10 @@ public class SeguimientoService {
     public Seguimiento obtenerPorCodigo(ObjectId id) {
         return this.seguimientoFacade.get(id);
     }
+    
+     public List<Seguimiento> obtenerPorCliente(Cliente cliente) {
+        return this.seguimientoFacade.findByCliente(cliente);
+    }
 
     public void crear(Seguimiento seguimiento) {
         this.seguimientoFacade.save(seguimiento);
@@ -58,8 +62,4 @@ public class SeguimientoService {
         this.seguimientoFacade.delete(aux);
     }
     
-    public List<Seguimiento> obtenerPorCliente(Cliente cliente) {
-        return this.seguimientoFacade.findByCliente(cliente);
-    }
-
 }
