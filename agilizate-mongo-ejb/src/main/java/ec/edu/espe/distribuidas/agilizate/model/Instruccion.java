@@ -19,6 +19,8 @@ import org.mongodb.morphia.annotations.Reference;
 public class Instruccion extends BaseEntity {
 
     private String recurso;
+    private String codEjercicio;
+    private String codTipoInstruccion;
     @Reference
     private TipoInstruccion tipoInstruccion;
     @Reference
@@ -35,6 +37,22 @@ public class Instruccion extends BaseEntity {
         this.recurso = recurso;
     }
 
+    public String getCodEjercicio() {
+        return codEjercicio;
+    }
+
+    public void setCodEjercicio(String codEjercicio) {
+        this.codEjercicio = codEjercicio;
+    }
+
+    public String getCodTipoInstruccion() {
+        return codTipoInstruccion;
+    }
+
+    public void setCodTipoInstruccion(String codTipoInstruccion) {
+        this.codTipoInstruccion = codTipoInstruccion;
+    }
+    
     public TipoInstruccion getTipoInstruccion() {
         return tipoInstruccion;
     }
@@ -53,7 +71,7 @@ public class Instruccion extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Instruccion{" + "recurso=" + recurso + ", tipoInstruccion=" + tipoInstruccion + ", ejercicio=" + ejercicio + '}';
+        return "Instruccion{" + "recurso=" + recurso + ", codEjercicio=" + codEjercicio + ", codTipoInstruccion=" + codTipoInstruccion + ", tipoInstruccion=" + tipoInstruccion + ", ejercicio=" + ejercicio + '}';
     }
 
     @Override

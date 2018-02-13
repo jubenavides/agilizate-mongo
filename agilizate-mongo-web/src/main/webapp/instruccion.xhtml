@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//ES" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/plantilla.xhtml">
+        <ui:define name="contenido">
+            <p:panel id="mainPnl" header="Ejercicios" style="width: 60%; margin: auto;">
+                <p:panel id="buscPnl" header="Escoger">
+                    <p:outputLabel for="filtroCmb" value="Buscar:" />
+                    <p:selectOneMenu id="filtroCmb" value="#{instruccionBean.instruccion.codEjercicio}">
+                        <f:selectItems var="ejercicio" value="#{instruccionBean.ejercicios}" itemLabel="#{ejercicio.nombre}" itemValue="#{ejercicio.id}" />
+                        <p:ajax update="instruccionTbl" listener="#{instruccionBean.buscar()}"/>
+                    </p:selectOneMenu>
+                </p:panel>
+                <p:dataTable id="instruccionTbl" var="instruccion" value="#{instruccionBean.instrucciones}" 
+                             selectionMode="single" selection="#{instruccionBean.instruccionSel}" rowKey="#{instruccion.id}">
+                    <p:ajax event="rowSelect" update="@form" />
+                    <p:ajax event="rowUnselect" update="@form" />
+                    <p:column headerText="Ejercicio">
+                        <h:outputText value="#{instruccion.codEjercicio}"/>
+                    </p:column>
+                    <p:column headerText="Tipo de instrucción">
+                        <h:outputText value="#{instruccion.codTipoInstruccion}"/>
+                    </p:column>
+                    <p:column headerText="Recurso">
+                        <h:outputText value="#{instruccion.recurso}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                <p:commandButton value="Agregar" actionListener="#{instruccionBean.agregar()}" update="@form"/>
+                <p:commandButton id="modBtn" value="Modificar" actionListener="#{instruccionBean.modificar()}" disabled="#{instruccionBean.instruccionSel eq null}" update="@form" process="@this" ajax="true"/>
+                <p:commandButton value="Eliminar" actionListener="#{instruccionBean.eliminar()}" update="@form" disabled="#{instruccionBean.instruccionSel eq null}" ajax="true">
+                    <p:confirm header="Confirmaci&#243;n" message="Desea eliminar la #{instruccionBean.instruccionSel.tipoInstruccion} del ejercicio #{instruccionBean.instruccionSel.ejercicio.nombre}" icon="ui-icon-alert" />
+                </p:commandButton>
+                <p:panel id="panelIngreso" header="#{instruccionBean.titulo} Instruccion" visible="#{instruccionBean.habilitaForm}">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel for="ejercicioIng" value="Ejercicio" />
+                        <p:selectOneMenu id="ejercicioIng" value="#{instruccionBean.instruccion.codEjercicio}">
+                            <f:selectItems var="ejercicioIng" value="#{instruccionBean.ejercicios}" itemLabel="#{ejercicioIng.nombre}" itemValue="#{ejercicioIng.nombre}" />
+                        </p:selectOneMenu>
+                        <p:outputLabel for="tipoInstruccion" value="tipoInstruccion" />
+                        <p:selectOneMenu id="tipoInstruccion" value="#{instruccionBean.instruccion.codTipoInstruccion}">
+                            <f:selectItems var="tipoInstruccion" value="#{instruccionBean.tiposInstruccion}" itemLabel="#{tipoInstruccion.nombre}" itemValue="#{tipoInstruccion.nombre}" />
+                        </p:selectOneMenu>
+                        <p:outputLabel for="recurso" value="Recurso" />
+                        <p:inputText id="recurso" value="#{instruccionBean.instruccion.recurso}" />
+                    </p:panelGrid>
+                    <p:commandButton value="Aceptar" actionListener="#{instruccionBean.guardar}" update="@form instruccionTbl" />
+                    <p:commandButton value="Cancelar" actionListener="#{instruccionBean.cancelar}" update="@form instruccionTbl" />
+                </p:panel>
+            </p:panel>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" update="@form" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" update="@form" />
+            </p:confirmDialog>
+        </ui:define>
+    </ui:composition>
+</html>
