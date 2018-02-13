@@ -6,26 +6,27 @@
 package ec.edu.espe.distribuidas.agilizate.service;
 
 import ec.edu.espe.distribuidas.agilizate.dao.ActividadDAO;
-import ec.edu.espe.distribuidas.agilizate.enums.CodCategoriaEnum;
 import ec.edu.espe.distribuidas.agilizate.enums.CumplidoActividadEnum;
 import ec.edu.espe.distribuidas.agilizate.model.ActividadDia;
-import ec.edu.espe.distribuidas.agilizate.model.Categoria;
 import ec.edu.espe.distribuidas.agilizate.model.Cliente;
 import ec.edu.espe.distribuidas.agilizate.model.Dificultad;
 import ec.edu.espe.distribuidas.agilizate.model.Ejercicio;
 import ec.edu.espe.distribuidas.agilizate.model.ProgramaCliente;
 import ec.edu.espe.distribuidas.nosql.mongo.MongoPersistence;
+import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.mail.MessagingException;
 import org.bson.types.ObjectId;
 
 /**
@@ -39,12 +40,16 @@ public class ActividadDiaService {
     @EJB
     private MongoPersistence mp;
     private ActividadDAO actividadFacade;
+    private MailService mail;
 
     @Inject
     private EjercicioService ejercicioService;
 
     @Inject
     private DificultadService dificultadService;
+
+    @EJB
+    private MailService mailService;
 
     @PostConstruct
     public void init() {
@@ -67,8 +72,8 @@ public class ActividadDiaService {
         return this.actividadFacade.findByCliPro(programa);
     }
 
-    public void generarActividades(ProgramaCliente programa, Cliente cliente) {
-        System.out.println("Programa--"+programa);
+    public void generarActividades(ProgramaCliente programa, Cliente cliente) throws MessagingException, UnsupportedEncodingException {
+        System.out.println("Programa--" + programa);
         List<Dificultad> dificultades = this.dificultadService.obtenerTodos();
         List<Ejercicio> ejerciciosEspecificosFaciles = this.ejercicioService.obtenerPorGTcPD(cliente.getGenero(), cliente.getTipoCliente(), cliente.getPasatiempo(), dificultades.get(0));
         System.out.println("Especificos Faciles: " + ejerciciosEspecificosFaciles.size() + "---" + ejerciciosEspecificosFaciles);
@@ -109,10 +114,9 @@ public class ActividadDiaService {
 //        System.out.println("Ejercicios Faciles total: " + ejerciciosTotales.size() + "---" + ejerciciosTotales);
 //
         SecureRandom sr = new SecureRandom();
-        
-        
+
 //        
-       for (int i = 0; i < (int) programa.getTotalDuracion(); i++) {
+        for (int i = 0; i < (int) programa.getTotalDuracion(); i++) {
             for (int j = 0; j < 3; j++) {
                 ActividadDia actividad = new ActividadDia();
                 actividad.setProgramaCliente(programa);
@@ -127,6 +131,16 @@ public class ActividadDiaService {
                 crear(actividad);
             }
         }
+
+        try {
+            this.mailService.enviarEmail(cliente, programa);
+            System.out.println("Fin del test");
+        } catch (Exception ex) {
+            System.out.println("Ocurrio un error al enviar el mail");
+            Logger.getLogger(ActividadDiaService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+
     }
 
     public Date CalculaFechaFin(ProgramaCliente programa, Integer TotalDuracion) {
