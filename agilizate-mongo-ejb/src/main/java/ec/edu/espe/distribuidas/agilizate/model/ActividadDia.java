@@ -9,6 +9,7 @@ package ec.edu.espe.distribuidas.agilizate.model;
 
 import ec.edu.espe.distribuidas.agilizate.enums.CumplidoActividadEnum;
 import ec.edu.espe.distribuidas.nosql.mongo.BaseEntity;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Reference;
@@ -22,7 +23,6 @@ public class ActividadDia extends BaseEntity {
 
     private Date fecha;
     private Integer duracion;
-    @Reference
     private CumplidoActividadEnum cumplido;
     @Reference
     private Ejercicio ejercicio;
@@ -38,6 +38,12 @@ public class ActividadDia extends BaseEntity {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+    
+    public String getFechaFormat() {
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+        String formatted = format1.format(fecha.getTime());
+        return formatted;
     }
 
     public Integer getDuracion() {

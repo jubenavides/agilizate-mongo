@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//ES" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/templates/plantilla.xhtml">
+        <ui:define name="contenido">
+            <p:panel id="mainPnl" header="Programa Ejercicios" style="width: 80%; margin: auto;">
+                <p:panel id="buscPnl" header="Busqueda" rendered="#{programaClienteBean.enBusqueda}">
+                    <p:outputLabel for="codUsuario" value="Codigo Usuario:" />
+                    <p:inputText id="codUsuario" value="#{programaClienteBean.programa.codCliente}" />
+                    <p:commandButton value="Buscar" actionListener="#{programaClienteBean.buscar(programaClienteBean.programa.codCliente)}" update="@form"/>        
+                </p:panel>
+                <p:panel id="mostrPnl" header="Programas Cliente" rendered="#{programaClienteBean.enEncontrado}">
+                    <p:dataTable var="programa" value="#{programaClienteBean.programas}" 
+                                 selectionMode="single" selection="#{programaClienteBean.programaSel}" rowKey="#{programa.id}">
+                        <p:ajax event="rowSelect" update="@form" />
+                        <p:ajax event="rowUnselect" update="@form" />
+                        <p:column headerText="Usuario" style="width: 25%">
+                            <h:outputText value="#{programa.cliente.nombre}" />
+                        </p:column>
+                        <p:column headerText="Descripcion" style="width: 25%">
+                            <h:outputText value="#{programa.descripcion}" />
+                        </p:column>
+                        <p:column headerText="Fecha Inicio" style="width: 25%">
+                            <h:outputText value="#{programa.fechaInicio}" />
+                        </p:column>
+                        <p:column headerText="Fecha Fin" style="width: 25%">
+                            <h:outputText value="#{programa.fechaFin}" />
+                        </p:column>
+                        <p:column headerText="Estado" style="width: 25%">
+                            <h:outputText value="#{programa.estado.texto}" />
+                        </p:column>
+                        <p:column headerText="Duracion" style="width: 25%">
+                            <h:outputText value="#{programa.totalDuracion}" />
+                        </p:column>
+                    </p:dataTable>      
+                    <p:commandButton id="modBtn" value="Selecionar" actionListener="#{programaClienteBean.mostrarActividades()}" update="@form" disabled="#{programaClienteBean.programaSel eq null}"/>      
+                </p:panel>
+                <p:panel header="Actividades" visible="#{programaClienteBean.habilitaFormActividaes}">
+                    <p:dataTable var="actividad" value="#{programaClienteBean.actividades}" 
+                                 selectionMode="single" selection="#{programaClienteBean.actividadSel}" rowKey="#{actividad.id}">
+                        <p:ajax event="rowSelect" update="@form" />
+                        <p:ajax event="rowUnselect" update="@form" />
+                        <p:column headerText="Nombre ejercicio">
+                            <h:outputText value="#{actividad.ejercicio.nombre}" />
+                        </p:column>
+                        <p:column headerText="Dificultad">
+                            <h:outputText value="#{actividad.ejercicio.dificultad.nombre}" />
+                        </p:column>
+                         <p:column headerText="Fecha de realizacion">
+                             <h:outputText value="#{actividad.fechaFormat}" />
+                        </p:column>
+                        <p:column headerText="Estado">
+                            <h:outputText value="#{actividad.cumplido}" />
+                        </p:column>
+                    </p:dataTable> 
+                </p:panel>
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+</html>

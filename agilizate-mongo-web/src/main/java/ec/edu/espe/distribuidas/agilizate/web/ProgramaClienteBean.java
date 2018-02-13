@@ -6,8 +6,10 @@
 package ec.edu.espe.distribuidas.agilizate.web;
 
 import ec.edu.espe.distribuidas.agilizate.enums.EstadoProgramaClienteEnum;
+import ec.edu.espe.distribuidas.agilizate.model.ActividadDia;
 import ec.edu.espe.distribuidas.agilizate.model.Cliente;
 import ec.edu.espe.distribuidas.agilizate.model.ProgramaCliente;
+import ec.edu.espe.distribuidas.agilizate.service.ActividadDiaService;
 import ec.edu.espe.distribuidas.agilizate.service.ClienteService;
 import ec.edu.espe.distribuidas.agilizate.service.ProgramaClienteService;
 import ec.edu.espe.distribuidas.agilizate.web.util.FacesUtil;
@@ -32,16 +34,22 @@ public class ProgramaClienteBean extends BaseBean implements Serializable {
     private ProgramaCliente programa;
     private List<ProgramaCliente> programas;
     private ProgramaCliente programaSel;
+    private List<ActividadDia> actividades;
+    private ActividadDia actividadSel;
 
     //Boolean para render
     private Boolean enEncontrado;
     private Boolean enBusqueda;
+    private Boolean habilitaFormActividaes;
 
     @Inject
     private ProgramaClienteService programaClienteService;
 
     @Inject
     private ClienteService clienteService;
+    
+    @Inject
+    private ActividadDiaService actividadService;
 
     @PostConstruct
     public void init() {
@@ -90,6 +98,7 @@ public class ProgramaClienteBean extends BaseBean implements Serializable {
             this.programa.setFechaFin(this.CalculaFechaFin());
             this.programa.setDescripcion(generaDescripcion());
             this.programaClienteService.crear(this.programa);
+            this.actividadService.generarActividades(this.programa, this.cliente);
             FacesUtil.addMessageInfo("Se agreg\u00f3 un nuevo programa al cliente");
             super.reset();
             this.init();
@@ -101,6 +110,14 @@ public class ProgramaClienteBean extends BaseBean implements Serializable {
 
     public void cancelar() {
         this.init();
+    }
+    
+    public void mostrarActividades() {
+        this.actividades = this.actividadService.obtenerPorProgramaCliente(this.programaSel);
+        System.out.println("Actividaes encontradas: "+ this.actividades );
+        this.habilitaFormActividaes = true;
+        this.enEncontrado = false;
+        this.enBusqueda = false;
     }
 
     public void eliminar() {
@@ -157,5 +174,28 @@ public class ProgramaClienteBean extends BaseBean implements Serializable {
     public void setProgramaSel(ProgramaCliente programaSel) {
         this.programaSel = programaSel;
     }
+
+    public Boolean getHabilitaFormActividaes() {
+        return habilitaFormActividaes;
+    }
+
+    public void setHabilitaFormActividaes(Boolean habilitaFormActividaes) {
+        this.habilitaFormActividaes = habilitaFormActividaes;
+    }
+
+    public List<ActividadDia> getActividades() {
+        return actividades;
+    }
+
+    public ActividadDia getActividadSel() {
+        return actividadSel;
+    }
+
+    public void setActividadSel(ActividadDia actividadSel) {
+        this.actividadSel = actividadSel;
+    }
+    
+    
+    
 
 }

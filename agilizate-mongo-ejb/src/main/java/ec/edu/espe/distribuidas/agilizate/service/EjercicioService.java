@@ -11,6 +11,7 @@ import ec.edu.espe.distribuidas.agilizate.dao.EjercicioDAO;
 import ec.edu.espe.distribuidas.agilizate.model.Categoria;
 import ec.edu.espe.distribuidas.agilizate.model.Dificultad;
 import ec.edu.espe.distribuidas.agilizate.model.Ejercicio;
+import ec.edu.espe.distribuidas.agilizate.model.Genero;
 import ec.edu.espe.distribuidas.agilizate.model.Material;
 import ec.edu.espe.distribuidas.agilizate.model.Pasatiempo;
 import ec.edu.espe.distribuidas.agilizate.model.TipoCliente;
@@ -28,16 +29,17 @@ import org.bson.types.ObjectId;
  */
 @Stateless
 @LocalBean
-public class EjercicioService{
+public class EjercicioService {
 
     @EJB
     private MongoPersistence mp;
     private EjercicioDAO ejercicioFacade;
-    
+
     @PostConstruct
     public void init() {
         this.ejercicioFacade = new EjercicioDAO(Ejercicio.class, mp.context());
     }
+
     public List<Ejercicio> obtenerTodos() {
         return this.ejercicioFacade.find().asList();
     }
@@ -50,8 +52,8 @@ public class EjercicioService{
         this.ejercicioFacade.save(ejercicio);
     }
 
-     public void modificar(Ejercicio ejercicio) {
-        
+    public void modificar(Ejercicio ejercicio) {
+
         this.ejercicioFacade.save(ejercicio);
     }
 
@@ -62,21 +64,24 @@ public class EjercicioService{
     public List<Ejercicio> obtenerPorDificultad(Dificultad dificultad) {
         return this.ejercicioFacade.findByDificultad(dificultad);
     }
-    
+
     public List<Ejercicio> obtenerPorPasatiempo(Pasatiempo pasatiempo) {
         return this.ejercicioFacade.findByPasatiempo(pasatiempo);
     }
-    
+
     public List<Ejercicio> obtenerTipoCliente(TipoCliente tipoCliente) {
         return this.ejercicioFacade.findByTipCliente(tipoCliente);
     }
-    
+
     public List<Ejercicio> obtenerPorCategoria(Categoria categoria) {
         return this.ejercicioFacade.findByCategoria(categoria);
     }
-    
+
     public List<Ejercicio> obtenerPorMaterial(Material material) {
         return this.ejercicioFacade.findByMaterial(material);
     }
-    
+
+    public List<Ejercicio> obtenerPorGTcPD(Genero genero, TipoCliente tipoCliente, Pasatiempo pasatiempo, Dificultad dificultad) {
+        return this.ejercicioFacade.findByGTcPD(genero, tipoCliente, pasatiempo, dificultad);
+    }
 }
