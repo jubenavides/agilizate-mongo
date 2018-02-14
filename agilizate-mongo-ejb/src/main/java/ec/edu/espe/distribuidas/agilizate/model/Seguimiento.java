@@ -21,9 +21,10 @@ public class Seguimiento extends BaseEntity {
 
     private Integer avance;
     private Integer totalDuracion;
-    private String codCliente;
-    private String codPrograma;
     private EstadoProgramaClienteEnum estado;
+    
+    @Reference
+    private Cliente cliente;
     
     @Reference
     private ProgramaCliente programaCliente;
@@ -47,28 +48,12 @@ public class Seguimiento extends BaseEntity {
         this.totalDuracion = totalDuracion;
     }
 
-    public String getCodCliente() {
-        return codCliente;
-    }
-
-    public void setCodCliente(String codCliente) {
-        this.codCliente = codCliente;
-    }
-
-    public String getCodPrograma() {
-        return codPrograma;
-    }
-
     public EstadoProgramaClienteEnum getEstado() {
         return estado;
     }
 
     public void setEstado(EstadoProgramaClienteEnum estado) {
         this.estado = estado;
-    }
-
-    public void setCodPrograma(String codPrograma) {
-        this.codPrograma = codPrograma;
     }
     
     public ProgramaCliente getProgramaCliente() {
@@ -79,11 +64,19 @@ public class Seguimiento extends BaseEntity {
         this.programaCliente = programaCliente;
     }
 
-    @Override
-    public String toString() {
-        return "Seguimiento{" + "avance=" + avance + ", totalDuracion=" + totalDuracion + ", codCliente=" + codCliente + ", codPrograma=" + codPrograma + ", estado=" + estado + ", programaCliente=" + programaCliente + '}';
+    public Cliente getCliente() {
+        return cliente;
     }
 
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    @Override
+    public String toString() {
+        return "Seguimiento{" + "avance=" + avance + ", totalDuracion=" + totalDuracion + ", estado=" + estado + ", programaCliente=" + programaCliente + '}';
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

@@ -28,7 +28,7 @@ public class SeguimientoDAO  extends BasicDAO<Seguimiento, ObjectId> {
     
     public List<Seguimiento> findByCliente(Cliente cliente){
         Query<Seguimiento> q = getDatastore().createQuery(Seguimiento.class);
-        q.criteria("codCliente").equal(cliente.getCodigo());
+        q.criteria("cliente").equal(cliente);
         return q.asList();
     }
     

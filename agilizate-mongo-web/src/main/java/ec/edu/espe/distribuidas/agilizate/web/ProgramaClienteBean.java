@@ -8,10 +8,14 @@ package ec.edu.espe.distribuidas.agilizate.web;
 import ec.edu.espe.distribuidas.agilizate.enums.EstadoProgramaClienteEnum;
 import ec.edu.espe.distribuidas.agilizate.model.ActividadDia;
 import ec.edu.espe.distribuidas.agilizate.model.Cliente;
+import ec.edu.espe.distribuidas.agilizate.model.Instruccion;
 import ec.edu.espe.distribuidas.agilizate.model.ProgramaCliente;
+import ec.edu.espe.distribuidas.agilizate.model.Seguimiento;
 import ec.edu.espe.distribuidas.agilizate.service.ActividadDiaService;
 import ec.edu.espe.distribuidas.agilizate.service.ClienteService;
+import ec.edu.espe.distribuidas.agilizate.service.InstruccionService;
 import ec.edu.espe.distribuidas.agilizate.service.ProgramaClienteService;
+import ec.edu.espe.distribuidas.agilizate.service.SeguimientoService;
 import ec.edu.espe.distribuidas.agilizate.web.util.FacesUtil;
 import java.io.Serializable;
 import java.util.Calendar;
@@ -36,11 +40,15 @@ public class ProgramaClienteBean extends BaseBean implements Serializable {
     private ProgramaCliente programaSel;
     private List<ActividadDia> actividades;
     private ActividadDia actividadSel;
-
+    private Seguimiento seguimiento;
+    private List<Instruccion> instrucciones;
+    private Instruccion instruccionSel;
+    
     //Boolean para render
     private Boolean enEncontrado;
     private Boolean enBusqueda;
     private Boolean habilitaFormActividaes;
+    private Boolean habilitaFormInstrucciones;
 
     @Inject
     private ProgramaClienteService programaClienteService;
@@ -51,6 +59,12 @@ public class ProgramaClienteBean extends BaseBean implements Serializable {
     @Inject
     private ActividadDiaService actividadService;
 
+    @Inject
+    private SeguimientoService seguimientoService;
+    
+   @Inject
+    private InstruccionService instruccionService;
+    
     @PostConstruct
     public void init() {
         this.programa = new ProgramaCliente();
@@ -94,11 +108,19 @@ public class ProgramaClienteBean extends BaseBean implements Serializable {
 
     public void crear() {
         try {
+            this.seguimiento = new Seguimiento();
             this.programa.setCliente(this.cliente);
             this.programa.setFechaFin(this.CalculaFechaFin());
             this.programa.setDescripcion(generaDescripcion());
+            this.programa.setCliente(this.cliente);
             this.programaClienteService.crear(this.programa);
-            this.actividadService.generarActividades(this.programa, this.cliente);
+            //this.actividadService.generarActividades(this.programa, this.cliente);
+            this.seguimiento.setProgramaCliente(programa);
+            this.seguimiento.setCliente(this.cliente);
+            this.seguimiento.setAvance(0);
+            this.seguimiento.setEstado(EstadoProgramaClienteEnum.NIN);
+            this.seguimiento.setTotalDuracion(0);
+            this.seguimientoService.crear(seguimiento);
             FacesUtil.addMessageInfo("Se agreg\u00f3 un nuevo programa al cliente");
             super.reset();
             this.init();
@@ -120,6 +142,14 @@ public class ProgramaClienteBean extends BaseBean implements Serializable {
         this.enBusqueda = false;
     }
 
+    public void mostrarInstrucciones() {
+        this.instrucciones = this.instruccionService.buscarPorEjercicio(actividadSel.getEjercicio());
+        this.habilitaFormActividaes = true;
+        this.enEncontrado = false;
+        this.enBusqueda = false;
+        this.habilitaFormInstrucciones = true;
+    }
+    
     public void eliminar() {
         try {
             this.programaClienteService.eliminar(this.programaSel);
@@ -194,8 +224,33 @@ public class ProgramaClienteBean extends BaseBean implements Serializable {
     public void setActividadSel(ActividadDia actividadSel) {
         this.actividadSel = actividadSel;
     }
-    
-    
-    
 
+    public List<Instruccion> getInstrucciones() {
+        return instrucciones;
+    }
+
+    public Seguimiento getSeguimiento() {
+        return seguimiento;
+    }
+
+    public void setSeguimiento(Seguimiento seguimiento) {
+        this.seguimiento = seguimiento;
+    }
+
+    public Boolean getHabilitaFormInstrucciones() {
+        return habilitaFormInstrucciones;
+    }
+
+    public void setHabilitaFormInstrucciones(Boolean habilitaFormInstrucciones) {
+        this.habilitaFormInstrucciones = habilitaFormInstrucciones;
+    }
+
+    public Instruccion getInstruccionSel() {
+        return instruccionSel;
+    }
+
+    public void setInstruccionSel(Instruccion instruccionSel) {
+        this.instruccionSel = instruccionSel;
+    }
+    
 }

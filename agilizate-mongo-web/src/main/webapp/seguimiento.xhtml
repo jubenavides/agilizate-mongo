@@ -11,11 +11,14 @@
             <p:panel id="mainPnl" header="Seguimiento Programas" style="width: 80%; margin: auto;">
                 <p:panel id="buscPnl" header="Busqueda" rendered="#{seguimientoBean.enBusqueda}">
                     <p:outputLabel for="codUsuario" value="Codigo Usuario:" />
-                    <p:inputText id="codUsuario" value="#{seguimientoBean.seguimiento.codCliente}" />
-                    <p:commandButton value="Buscar" actionListener="#{seguimientoBean.buscar(seguimientoBean.seguimiento.codCliente)}" update="@form"/>        
+                    <p:inputText id="codUsuario" value="#{seguimientoBean.codCliente}" />
+                    <p:commandButton value="Buscar" actionListener="#{seguimientoBean.buscar(seguimientoBean.codCliente)}" update="@form"/>        
                 </p:panel>
                 <p:panel id="mostrPnl" header="Programas Cliente" rendered="#{seguimientoBean.enEncontrado}">
                     <p:dataTable var="seguimiento" value="#{seguimientoBean.seguimientos}" rowKey="#{seguimiento.id}">
+                        <p:column headerText="Programa" style="width: 25%">
+                            <h:outputText value="#{seguimiento.programaCliente.descripcion}" />
+                        </p:column>
                         <p:column headerText="Avance" style="width: 25%">
                             <h:outputText value="#{seguimiento.avance}" />
                         </p:column>

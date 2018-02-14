@@ -8,13 +8,13 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <ui:composition template="/templates/plantilla.xhtml">
         <ui:define name="contenido">
-            <p:panel id="mainPnl" header="Programa Ejercicios" style="width: 80%; margin: auto;">
+            <p:panel id="mainPnl" header="Actividades" style="width: 80%; margin: auto;">
                 <p:panel id="buscPnl" header="Busqueda" rendered="#{programaClienteBean.enBusqueda}">
                     <p:outputLabel for="codUsuario" value="Codigo Usuario:" />
                     <p:inputText id="codUsuario" value="#{programaClienteBean.programa.codCliente}" />
                     <p:commandButton value="Buscar" actionListener="#{programaClienteBean.buscar(programaClienteBean.programa.codCliente)}" update="@form"/>        
                 </p:panel>
-                <p:panel id="mostrPnl" header="Programas Cliente" rendered="#{programaClienteBean.enEncontrado}">
+                <p:panel id="mostrPnl" header="Ejercicios" rendered="#{programaClienteBean.enEncontrado}">
                     <p:dataTable var="programa" value="#{programaClienteBean.programas}" 
                                  selectionMode="single" selection="#{programaClienteBean.programaSel}" rowKey="#{programa.id}">
                         <p:ajax event="rowSelect" update="@form" />
@@ -56,6 +56,20 @@
                         </p:column>
                         <p:column headerText="Completado">
                             <h:outputText value="#{actividad.cumplido}" />
+                        </p:column>
+                    </p:dataTable> 
+                    <p:commandButton id="modBtn2" value="Selecionar" actionListener="#{programaClienteBean.mostrarInstrucciones()}" update="@form" disabled="#{programaClienteBean.programaSel eq null}"/> 
+                </p:panel>       
+                 <p:panel header="Actividades" visible="#{programaClienteBean.habilitaFormInstrucciones}">
+                    <p:dataTable var="instruccion" value="#{programaClienteBean.instrucciones}" 
+                                 selectionMode="single" selection="#{programaClienteBean.instruccionSel}" rowKey="#{instruccion.id}">
+                        <p:ajax event="rowSelect" update="@form" />
+                        <p:ajax event="rowUnselect" update="@form" />
+                        <p:column headerText="Tipo de instruccion">
+                            <h:outputText value="#{instruccion.tipoInstruccion.nombre}" />
+                        </p:column>
+                        <p:column headerText="Recurso">
+                            <h:outputText value="#{instruccion.recurso}" />
                         </p:column>
                     </p:dataTable> 
                 </p:panel>

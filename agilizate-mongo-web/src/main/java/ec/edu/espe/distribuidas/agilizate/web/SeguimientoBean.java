@@ -32,6 +32,7 @@ public class SeguimientoBean extends BaseBean implements Serializable {
     private List<Seguimiento> seguimientos;
     private Seguimiento seguimientoSel;
     private List<ProgramaCliente> programasClientes;
+    private String CodCliente;
     //Boolean para render
     private Boolean enEncontrado;
     private Boolean enBusqueda;
@@ -168,5 +169,13 @@ public class SeguimientoBean extends BaseBean implements Serializable {
     public void setProgramasClientes(List<ProgramaCliente> programasClientes) {
         this.programasClientes = programasClientes;
     }
+
+    public String getCodCliente() {
+        return CodCliente;
+    }
+
+    public void setCodCliente(String CodCliente) {
+        this.CodCliente = CodCliente;
+    }    
 
 }

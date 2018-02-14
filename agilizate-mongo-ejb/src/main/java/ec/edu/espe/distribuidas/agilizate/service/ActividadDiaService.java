@@ -72,7 +72,7 @@ public class ActividadDiaService {
         return this.actividadFacade.findByCliPro(programa);
     }
 
-    public void generarActividades(ProgramaCliente programa, Cliente cliente) throws MessagingException, UnsupportedEncodingException {
+    public void generarActividades(ProgramaCliente programa, Cliente cliente) {
         System.out.println("Programa--" + programa);
         List<Dificultad> dificultades = this.dificultadService.obtenerTodos();
         List<Ejercicio> ejerciciosEspecificosFaciles = this.ejercicioService.obtenerPorGTcPD(cliente.getGenero(), cliente.getTipoCliente(), cliente.getPasatiempo(), dificultades.get(0));
