@@ -13,7 +13,7 @@
                     <p:outputLabel for="filtroCmb" value="Buscar:" />
                     <p:selectOneMenu id="filtroCmb" value="#{instruccionBean.instruccion.codEjercicio}">
                         <f:selectItems var="ejercicio" value="#{instruccionBean.ejercicios}" itemLabel="#{ejercicio.nombre}" itemValue="#{ejercicio.id}" />
-                        <p:ajax update="instruccionTbl" listener="#{instruccionBean.buscar()}"/>
+                        <p:ajax update="instruccionTbl" listener="#{instruccionBean.buscar(instruccionBean.instruccion.codEjercicio)}"/>
                     </p:selectOneMenu>
                 </p:panel>
                 <p:dataTable id="instruccionTbl" var="instruccion" value="#{instruccionBean.instrucciones}" 
@@ -39,7 +39,7 @@
                 <p:panel id="panelIngreso" header="#{instruccionBean.titulo} Instruccion" visible="#{instruccionBean.habilitaForm}">
                     <p:panelGrid columns="2">
                         <p:outputLabel for="ejercicioIng" value="Ejercicio" />
-                        <p:selectOneMenu id="ejercicioIng" value="#{instruccionBean.instruccion.codEjercicio}">
+                        <p:selectOneMenu id="ejercicioIng" value="#{instruccionBean.instruccion.codEjercicio}" disabled="#{instruccionBean.enModificar}">
                             <f:selectItems var="ejercicioIng" value="#{instruccionBean.ejercicios}" itemLabel="#{ejercicioIng.nombre}" itemValue="#{ejercicioIng.nombre}" />
                         </p:selectOneMenu>
                         <p:outputLabel for="tipoInstruccion" value="tipoInstruccion" />

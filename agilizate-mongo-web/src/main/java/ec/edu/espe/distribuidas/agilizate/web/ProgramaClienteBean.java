@@ -43,7 +43,7 @@ public class ProgramaClienteBean extends BaseBean implements Serializable {
     private Seguimiento seguimiento;
     private List<Instruccion> instrucciones;
     private Instruccion instruccionSel;
-    
+
     //Boolean para render
     private Boolean enEncontrado;
     private Boolean enBusqueda;
@@ -55,16 +55,16 @@ public class ProgramaClienteBean extends BaseBean implements Serializable {
 
     @Inject
     private ClienteService clienteService;
-    
+
     @Inject
     private ActividadDiaService actividadService;
 
     @Inject
     private SeguimientoService seguimientoService;
-    
-   @Inject
+
+    @Inject
     private InstruccionService instruccionService;
-    
+
     @PostConstruct
     public void init() {
         this.programa = new ProgramaCliente();
@@ -101,7 +101,7 @@ public class ProgramaClienteBean extends BaseBean implements Serializable {
 
     public String generaDescripcion() {
         String cadena;
-        cadena = " Programa Cliente " + this.cliente.getNombre() + " " 
+        cadena = " Programa Cliente " + this.cliente.getNombre() + " "
                 + this.cliente.getApellido() + " Duracion " + this.programa.getTotalDuracion() + " dias";
         return cadena;
     }
@@ -133,23 +133,23 @@ public class ProgramaClienteBean extends BaseBean implements Serializable {
     public void cancelar() {
         this.init();
     }
-    
+
     public void mostrarActividades() {
         this.actividades = this.actividadService.obtenerPorProgramaCliente(this.programaSel);
-        System.out.println("Actividaes encontradas: "+ this.actividades );
+        System.out.println("Actividaes encontradas: " + this.actividades);
         this.habilitaFormActividaes = true;
         this.enEncontrado = false;
         this.enBusqueda = false;
     }
 
     public void mostrarInstrucciones() {
-        this.instrucciones = this.instruccionService.buscarPorEjercicio(actividadSel.getEjercicio());
+        this.instrucciones = this.instruccionService.buscarPorEjercicio(actividadSel.getEjercicio().getNombre());
         this.habilitaFormActividaes = true;
         this.enEncontrado = false;
         this.enBusqueda = false;
         this.habilitaFormInstrucciones = true;
     }
-    
+
     public void eliminar() {
         try {
             this.programaClienteService.eliminar(this.programaSel);
@@ -252,5 +252,5 @@ public class ProgramaClienteBean extends BaseBean implements Serializable {
     public void setInstruccionSel(Instruccion instruccionSel) {
         this.instruccionSel = instruccionSel;
     }
-    
+
 }

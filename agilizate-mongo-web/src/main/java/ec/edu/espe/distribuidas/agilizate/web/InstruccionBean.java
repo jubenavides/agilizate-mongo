@@ -30,10 +30,10 @@ public class InstruccionBean extends BaseBean implements Serializable {
 
     private List<TipoInstruccion> tiposInstruccion;
     private TipoInstruccion tipoInstruccion;
-    private TipoInstruccion tipoInstruccionSel;
-
     private List<Instruccion> instrucciones;
+
     private List<Ejercicio> ejercicios;
+    private Ejercicio ejercicio;
 
     private String filtro;
 
@@ -49,9 +49,9 @@ public class InstruccionBean extends BaseBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        this.instrucciones = this.instruccionService.obtenerTodos();
         this.ejercicios = this.ejercicioService.obtenerTodos();
         this.tiposInstruccion = this.tipoInstruccionService.obtenerTodos();
+        this.instrucciones = this.instruccionService.buscarPorEjercicio(ejercicios.get(0).getNombre());
         this.instruccion = new Instruccion();
     }
 
@@ -66,23 +66,22 @@ public class InstruccionBean extends BaseBean implements Serializable {
     public void modificar() {
         super.modificar();
         this.instruccion = new Instruccion();
-        this.instruccion.setEjercicio(this.ejercicioService.obtenerPorCodigo(new ObjectId(this.instruccionSel.getCodEjercicio())));
-        this.instruccion.setTipoInstruccion(this.tipoInstruccionService.obtenerPorCodigo(new ObjectId(this.instruccionSel.getCodTipoInstruccion())));
         this.instruccion.setRecurso(this.instruccionSel.getRecurso());
         this.instruccion.setCodEjercicio(this.instruccionSel.getCodEjercicio());
         this.instruccion.setCodTipoInstruccion(this.instruccionSel.getCodTipoInstruccion());
+        this.instruccion.setId(this.instruccionSel.getId());
     }
 
     public void eliminar() {
         try {
             this.instruccionService.eliminar(this.instruccionSel);
-            this.tiposInstruccion = this.tipoInstruccionService.obtenerTodos(); 
+            this.tiposInstruccion = this.tipoInstruccionService.obtenerTodos();
             FacesUtil.addMessageInfo("Se elimino el registro ");
-            this.tipoInstruccionSel = null;
+            this.instruccionSel = null;
         } catch (Exception e) {
             FacesUtil.addMessageError(null, "No se puede eliminar el registro seleccionado");
         }
-        this.instrucciones = this.instruccionService.obtenerTodos();
+        this.instrucciones = this.instruccionService.buscarPorEjercicio(ejercicio.getNombre());
     }
 
     @Override
@@ -102,22 +101,21 @@ public class InstruccionBean extends BaseBean implements Serializable {
                 this.instruccionService.crear(this.instruccion);
                 FacesUtil.addMessageInfo("Se agreg\u00f3 la instrucci\u00f3n");
             } else {
+                this.instruccion.setCodEjercicio(this.instruccionSel.getCodEjercicio());
                 this.instruccionService.modificar(this.instruccion);
-                System.out.println(instruccion);
                 FacesUtil.addMessageInfo("Se modific\u00f3 el tipo de instrucci\u00f3n: ");
             }
         } catch (Exception ex) {
             FacesUtil.addMessageError(null, "Ocurrí\u00f3 un error al actualizar la informaci\u00f3n");
         }
+        String auxBuscar = this.ejercicio.getId();
         super.reset();
-        this.instruccion = new Instruccion();
-        this.instrucciones = this.instruccionService.obtenerTodos();
-        this.instrucciones = this.instruccionService.buscarPorEjercicio(this.instruccion.getEjercicio());
+        buscar(auxBuscar);
     }
 
-    public void buscar() {
-        this.instrucciones = this.instruccionService.buscarPorEjercicio(this.instruccion.getEjercicio());
-        this.instruccion.setEjercicio(this.ejercicioService.obtenerPorCodigo(new ObjectId(this.instruccion.getId())));
+    public void buscar(String codigoEjercicio) {
+        this.ejercicio = this.ejercicioService.obtenerPorCodigo(new ObjectId(codigoEjercicio));
+        this.instrucciones = this.instruccionService.buscarPorEjercicio(ejercicio.getNombre());
     }
 
     public TipoInstruccion getTipoInstruccion() {
@@ -126,14 +124,6 @@ public class InstruccionBean extends BaseBean implements Serializable {
 
     public void setTipoInstruccion(TipoInstruccion tipoInstruccion) {
         this.tipoInstruccion = tipoInstruccion;
-    }
-
-    public TipoInstruccion getTipoInstruccionSel() {
-        return tipoInstruccionSel;
-    }
-
-    public void setTipoInstruccionSel(TipoInstruccion tipoInstruccionSel) {
-        this.tipoInstruccionSel = tipoInstruccionSel;
     }
 
     public List<TipoInstruccion> getTiposInstruccion() {

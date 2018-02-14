@@ -57,7 +57,7 @@ public class InstruccionService {
         this.instruccionFacade.delete(instruccion);
     }
 
-    public List<Instruccion> buscarPorEjercicio(Ejercicio ejercicio) {
-        return this.instruccionFacade.findByEjercicio(ejercicio);
+    public List<Instruccion> buscarPorEjercicio(String nomEjercicio) {
+        return this.instruccionFacade.findByEjercicio(nomEjercicio);
     }
 }

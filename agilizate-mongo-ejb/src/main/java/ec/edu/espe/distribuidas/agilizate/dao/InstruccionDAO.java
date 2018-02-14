@@ -23,9 +23,9 @@ public class InstruccionDAO  extends BasicDAO<Instruccion, ObjectId> {
         super(objectEntity, ds);
     }
     
-     public List<Instruccion> findByEjercicio(Ejercicio ejercicio){
+     public List<Instruccion> findByEjercicio(String nomEjercicio){
         Query<Instruccion> q = getDatastore().createQuery(Instruccion.class);
-        q.criteria("ejercicio").equal(ejercicio);
+        q.criteria("codEjercicio").equal(nomEjercicio);
         return q.asList();
     }
 }
